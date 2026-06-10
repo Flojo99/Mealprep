@@ -206,6 +206,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   <button class="tab" onclick="sv('kochplan',this)">Kochplan Laura</button>
   <button class="tab" onclick="sv('kalender',this)">Nachkoch-Kalender</button>
   <button class="tab" onclick="sv('snacks',this)">Snacks Laura</button>
+  <button class="tab" onclick="sv('abend',this)">Abend Florian</button>
 </div>
 
 <!-- Tableau -->
@@ -293,6 +294,12 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   <div class="snack-grid" id="sgrid"></div>
 </div>
 
+<!-- Abend Florian -->
+<div id="abend" class="view">
+  <p style="font-size:0.82rem;color:#6B6960;margin-bottom:1rem">Täglich rotieren — kein zweimal hintereinander. KH immer dabei für Proteinaufnahme. Keine Walnüsse abends.</p>
+  <div class="snack-grid" id="fgrid"></div>
+</div>
+
 </div><!-- /app -->
 
 <!-- Popup -->
@@ -351,8 +358,10 @@ function loadW(){
 function renderInfo(){
   var fP=ST.fKg*2,lP=ST.lKg*2;
   var fS=Math.round(ST.fKc/5),lS=Math.round(ST.lKc/5);
-  var fF=Math.round((ST.fKc-fP*4-ST.fKc*0.38)/9),lF=Math.round((ST.lKc-lP*4-ST.lKc*0.38)/9);
-  document.getElementById('f-info').innerHTML='Protein: <strong>'+fP+'g</strong>/Tag ('+ST.fKg+'kg × 2) &nbsp;·&nbsp; Slot: ~'+fS+'kcal<br>Fett gesamt: ~'+fF+'g/Tag &nbsp;·&nbsp; Omega-3: 30g Walnüsse täglich';
+  // Echtes Fett aus Plan: Shake(22) + TK×2(18) + Frühstück-Ø(12) + Abend-Quark(1) = ~53g fix
+  // Laura: TK×2(14) + Frühstück-Ø(6) + Snacks(6) = ~26g
+  var fF=53,lF=26;
+  document.getElementById('f-info').innerHTML='Protein: <strong>'+fP+'g</strong>/Tag ('+ST.fKg+'kg × 2) &nbsp;·&nbsp; Slot: ~'+fS+'kcal<br>Fett gesamt: ~'+fF+'g/Tag &nbsp;·&nbsp; Omega-3: 30g Walnüsse im Shake';
   document.getElementById('l-info').innerHTML='Protein: <strong>'+lP+'g</strong>/Tag ('+ST.lKg+'kg × 2) &nbsp;·&nbsp; Slot: ~'+lS+'kcal<br>Fett gesamt: ~'+lF+'g/Tag';
 }
 
@@ -374,10 +383,13 @@ function renderWeek(){
     var fMkc=TKkc+fBkc,lMkc=TLkc+lBkc;
     var verbrF=fFrKc+fMkc+SHkc+fMkc;
     var fAbKc=Math.max(200,fKc-verbrF);
-    var fQg=Math.max(150,Math.round(fAbKc*0.6/0.8));
-    var fWg=Math.max(0,Math.round((fAbKc-fQg*0.8)/6.5));
-    var fAbP=Math.round(fQg*0.108),fAbKcR=Math.round(fQg*0.8+fWg*6.5);
-    var fAbF=Math.round(fQg*0.004+fWg*0.65);
+    // Abend: Skyr/Quark + KH, keine Walnüsse
+    // Skyr/Quark ~0.8kcal/g, ~0.11g P/g; KH (Obst/Granola) ~100kcal fix
+    var fAbKH=100;
+    var fQg=Math.max(150,Math.round((fAbKc-fAbKH)/0.8));
+    var fAbP=Math.round(fQg*0.11);
+    var fAbKcR=Math.round(fQg*0.8+fAbKH);
+    var fAbF=Math.round(fQg*0.004);
     var fTot=fFrKc+fMkc+SHkc+fMkc+fAbKcR;
     var fPTot=fFrP+TKp+SHp+TKp+fAbP;
     var fFTot=Math.round(ff.f+SHf+TKf*2+fAbF);
@@ -414,7 +426,7 @@ function renderWeek(){
         '<div class="meal-f" onclick="oR(\''+p.g2+'\')">F: '+RN[p.g2]+' <strong>'+fg2+'g</strong> + '+fBg+'g '+p.b+'<br>&nbsp;'+fMkc+'kcal / '+TKp+'g P</div>'+
         '<div class="meal-l" onclick="oR(\''+p.g2+'\')">L: '+RN[p.g2]+' <strong>'+lg2+'g</strong> + '+lBg+'g '+p.b+'<br>&nbsp;'+lMkc+'kcal / '+TLp+'g P</div></div>'+
       '<div class="meal"><div class="meal-label">Abend</div>'+
-        '<div class="meal-f">F: Magerquark '+fQg+'g + Walnüsse '+fWg+'g<br>&nbsp;'+fAbKcR+'kcal / '+fAbP+'g P</div>'+
+        '<div class="meal-f">F: Abend-Rotation &nbsp;~'+fAbKcR+'kcal / ~'+fAbP+'g P &nbsp;<span style="font-size:0.58rem;color:#9B9890">→ Tab</span></div>'+
         '<div class="meal-l">L: Abend-Rotation &nbsp;~'+lAbKc+'kcal</div></div>'+
       '<div class="day-summary">'+
         '<div class="sum-row">F: '+fTot+'/'+fKc+'kcal · '+fPTot+'/'+fP+'g P · '+fFTot+'g F</div>'+
@@ -447,6 +459,36 @@ function renderSnacks(){
     '</div>';
   }
   document.getElementById('sgrid').innerHTML=html;
+}
+
+function renderAbend(){
+  var fS=Math.round(ST.fKc/5);
+  var FA=[
+    {name:"Skyr 300g + Banane",menge:"300g Skyr · 1 Banane (~120g)",kc:360,p:36,f:1,k:28},
+    {name:"Griech. Joghurt 300g + Haferflocken + Honig",menge:"300g Griech. Joghurt 2% · 40g Haferflocken · 1 TL Honig",kc:410,p:27,f:6,k:48},
+    {name:"Körniger Frischkäse + Gemüse + Brot",menge:"200g Körniger Frischkäse · 100g Gemüse · 2 Scheiben Vollkornbrot",kc:380,p:28,f:6,k:35},
+    {name:"Skyr 300g + Beeren + Granola",menge:"300g Skyr · 100g Beeren · 30g Granola",kc:370,p:35,f:3,k:42},
+    {name:"Körniger Frischkäse + Apfel + Brot",menge:"200g Körniger Frischkäse · 1 Apfel · 2 Scheiben Vollkornbrot",kc:360,p:26,f:5,k:38},
+    {name:"Griech. Joghurt 300g + Müsli + Beeren",menge:"300g Griech. Joghurt 2% · 40g Müsli · 80g Beeren",kc:400,p:27,f:7,k:45},
+    {name:"Skyr 300g + Apfel + Zimt",menge:"300g Skyr · 1 Apfel · Zimt nach Geschmack",kc:340,p:34,f:1,k:30}
+  ];
+  var html='';
+  for(var i=0;i<FA.length;i++){
+    var s=FA[i];
+    var d=fS-s.kc,h=Math.abs(d)<40?'passt zum Slot ✓':d>0?'+'+d+'kcal → Portion etwas größer':d+'kcal → Portion etwas kleiner';
+    html+='<div class="snack-card">'+
+      '<div class="snack-name" style="color:#1A5FA8">'+s.name+'</div>'+
+      '<div class="snack-menge">'+s.menge+'</div>'+
+      '<div class="snack-macros">'+
+        '<span class="snack-macro">'+s.kc+' kcal</span>'+
+        '<span class="snack-macro">'+s.p+'g P</span>'+
+        '<span class="snack-macro">'+s.f+'g F</span>'+
+        '<span class="snack-macro" style="background:#EBF2FB;color:#1A5FA8">'+s.k+'g KH ✓</span>'+
+      '</div>'+
+      '<div class="snack-hint">Slot ~'+fS+'kcal: '+h+'</div>'+
+    '</div>';
+  }
+  document.getElementById('fgrid').innerHTML=html;
 }
 
 function gK(w){if(w<=4)return null;return ROT[(w-5)%7];}
@@ -487,7 +529,7 @@ function upd(){
   document.getElementById('fkc-v').textContent=ST.fKc;
   document.getElementById('lkg-v').textContent=ST.lKg+' kg';
   document.getElementById('lkc-v').textContent=ST.lKc;
-  renderInfo();renderWeek();renderSnacks();renderKal();
+  renderInfo();renderWeek();renderSnacks();renderAbend();renderKal();
 }
 
 function sv(id,btn){
