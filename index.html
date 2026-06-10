@@ -45,8 +45,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);line-height:1
 .ml{margin-bottom:4px;padding:4px 6px;border-radius:6px;background:var(--sur2)}
 .ml-l{font-size:.58rem;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
 .mf{font-size:.65rem;color:var(--fc);cursor:pointer;line-height:1.5}
-.mfl{font-size:.65rem;color:var(--lc);cursor:pointer;line-height:1.5}
-.mf:hover,.mfl:hover{text-decoration:underline}
+.mfl{font-size:.65rem;color:var(--lc);line-height:1.5}
+.mf:hover{text-decoration:underline}
 .ds{margin-top:4px;padding:5px 6px;background:var(--sur2);border-radius:6px}
 .ds-r{font-size:.6rem;color:var(--txt2);margin-bottom:2px}
 .ds-b{height:3px;border-radius:2px;background:var(--bdr);margin-bottom:3px;overflow:hidden}
@@ -114,7 +114,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);line-height:1
 <div class="hdr"><h1>Meal Prep Plan</h1><p>Florian &amp; Laura — Muskelaufbau &amp; Recomposition</p></div>
 
 <div class="sett">
-  <div class="sett-ttl">Körpergewicht &amp; Kalorien — Protein = 2g/kg · Trainingstage automatisch +10%</div>
+  <div class="sett-ttl">Gewicht &amp; Kalorien — Protein = 2g/kg gleichmäßig auf 5 Mahlzeiten · Training morgens nach Frühstück</div>
   <div class="sett-grid">
     <div class="pc"><div class="pn f">Florian</div>
       <div class="sr"><span class="sl">Gewicht (kg)</span><input type="range" min="70" max="120" step="1" value="95" id="fkg"><span class="sv" id="fkg-v">95 kg</span></div>
@@ -129,7 +129,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);line-height:1
 
 <div class="tabs">
   <button class="tab active" onclick="sv('tableau',this)">Wochentableau</button>
-  <button class="tab" onclick="sv('kochplan',this)">Kochplan Laura</button>
+  <button class="tab" onclick="sv('kochplan',this)">Kochplan</button>
   <button class="tab" onclick="sv('kalender',this)">Nachkoch-Kalender</button>
   <button class="tab" onclick="sv('snacks',this)">Snacks Laura</button>
   <button class="tab" onclick="sv('abend',this)">Abend Florian</button>
@@ -142,11 +142,10 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);line-height:1
     <div class="li"><div class="ld" style="background:#1655A0"></div>Kochtag</div>
     <div class="li"><div class="ld" style="background:#1A5FA8"></div>F = Florian</div>
     <div class="li"><div class="ld" style="background:#8B4A00"></div>L = Laura</div>
-    <div class="li" style="font-size:.7rem">Gerichte anklicken → Rezept bearbeiten</div>
   </div>
   <div class="wk-nav"><button onclick="cw(-1)">← zurück</button><div class="wk-lbl" id="wlbl">Woche 1</div><button onclick="cw(1)">weiter →</button></div>
   <div class="wk-grid" id="wgrid"></div>
-  <div class="hint">Training morgens nach Frühstück · Frühstück + M1 höher kaloriiert · F: OJ täglich · L: OJ nur Di/Do/Fr/So · Beilage immer frisch</div>
+  <div class="hint">Training morgens nach Frühstück · F: OJ täglich · L: OJ nur Di/Do/Fr/So · Beilage immer frisch kochen</div>
 </div>
 
 <div id="kochplan" class="view">
@@ -154,26 +153,26 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);line-height:1
   <div class="sec-lbl">Wochenende 1</div>
   <div class="kp" style="border-left:3px solid var(--blue)">
     <div class="kp-t">Samstag — ca. 2,5h (parallel)</div><div class="kp-h">Hähnchen-Kokos-Dahl + Turkey-Bolognese</div>
-    <div class="kp-b">Dahl: 20 Port. · 45 Min · <span class="kp-lnk" onclick="oR('dahl')">→ Rezept</span><br>Bolognese: 20 Port. · 50 Min · <span class="kp-lnk" onclick="oR('bolognese')">→ Rezept</span></div>
+    <div class="kp-b">Dahl: 20 Port. · 45 Min · <span class="kp-lnk" onclick="oRTK('dahl')">→ Rezept</span><br>Bolognese: 20 Port. · 50 Min · <span class="kp-lnk" onclick="oRTK('bolognese')">→ Rezept</span></div>
     <div class="wr"><span class="wl">Dahl — Gesamtgewicht fertig</span><input class="wi" type="number" id="w-dahl" placeholder="ca. 4800"><span class="wu">g</span><span class="ws" id="ws-dahl">✓</span></div><div class="wres" id="wr-dahl"></div>
     <div class="wr"><span class="wl">Bolognese — Gesamtgewicht fertig</span><input class="wi" type="number" id="w-bolognese" placeholder="ca. 3600"><span class="wu">g</span><span class="ws" id="ws-bolognese">✓</span></div><div class="wres" id="wr-bolognese"></div>
   </div>
   <div class="kp" style="border-left:3px solid var(--blue)">
     <div class="kp-t">Sonntag — ca. 3h</div><div class="kp-h">Ofengulasch + Curryhuhn</div>
-    <div class="kp-b">Gulasch: 20 Port. · 30 Min + 2,5h Ofen · <span class="kp-lnk" onclick="oR('gulasch')">→ Rezept</span><br>Curryhuhn: 20 Port. · 50 Min · <span class="kp-lnk" onclick="oR('curryhuhn')">→ Rezept</span></div>
+    <div class="kp-b">Gulasch: 20 Port. · 30 Min + 2,5h Ofen · <span class="kp-lnk" onclick="oRTK('gulasch')">→ Rezept</span><br>Curryhuhn: 20 Port. · 50 Min · <span class="kp-lnk" onclick="oRTK('curryhuhn')">→ Rezept</span></div>
     <div class="wr"><span class="wl">Gulasch — Gesamtgewicht fertig</span><input class="wi" type="number" id="w-gulasch" placeholder="ca. 4000"><span class="wu">g</span><span class="ws" id="ws-gulasch">✓</span></div><div class="wres" id="wr-gulasch"></div>
     <div class="wr"><span class="wl">Curryhuhn — Gesamtgewicht fertig</span><input class="wi" type="number" id="w-curryhuhn" placeholder="ca. 2600"><span class="wu">g</span><span class="ws" id="ws-curryhuhn">✓</span></div><div class="wres" id="wr-curryhuhn"></div>
   </div>
   <div class="sec-lbl">Wochenende 2</div>
   <div class="kp" style="border-left:3px solid var(--blue)">
     <div class="kp-t">Samstag — ca. 2h</div><div class="kp-h">Stroganoff + Butter Chicken</div>
-    <div class="kp-b">Stroganoff: 20 Port. · 35 Min · <span class="kp-lnk" onclick="oR('stroganoff')">→ Rezept</span><br>Butter Chicken: 20 Port. · 45 Min · <span class="kp-lnk" onclick="oR('butterchicken')">→ Rezept</span></div>
+    <div class="kp-b">Stroganoff: 20 Port. · 35 Min · <span class="kp-lnk" onclick="oRTK('stroganoff')">→ Rezept</span><br>Butter Chicken: 20 Port. · 45 Min · <span class="kp-lnk" onclick="oRTK('butterchicken')">→ Rezept</span></div>
     <div class="wr"><span class="wl">Stroganoff — Gesamtgewicht fertig</span><input class="wi" type="number" id="w-stroganoff" placeholder="ca. 2900"><span class="wu">g</span><span class="ws" id="ws-stroganoff">✓</span></div><div class="wres" id="wr-stroganoff"></div>
     <div class="wr"><span class="wl">Butter Chicken — Gesamtgewicht fertig</span><input class="wi" type="number" id="w-butterchicken" placeholder="ca. 3200"><span class="wu">g</span><span class="ws" id="ws-butterchicken">✓</span></div><div class="wres" id="wr-butterchicken"></div>
   </div>
   <div class="kp" style="border-left:3px solid var(--blue)">
     <div class="kp-t">Sonntag — ca. 1h (Marinade Sa abends!)</div><div class="kp-h">Chicken Tikka Masala</div>
-    <div class="kp-b">Tikka: 20 Port. · 50 Min · <span class="kp-lnk" onclick="oR('tikka')">→ Rezept</span><br><strong>TK danach: 140 Port., 7 Sorten — System läuft</strong></div>
+    <div class="kp-b">Tikka: 20 Port. · 50 Min · <span class="kp-lnk" onclick="oRTK('tikka')">→ Rezept</span><br><strong>TK danach: 140 Port., 7 Sorten — System läuft</strong></div>
     <div class="wr"><span class="wl">Tikka — Gesamtgewicht fertig</span><input class="wi" type="number" id="w-tikka" placeholder="ca. 3400"><span class="wu">g</span><span class="ws" id="ws-tikka">✓</span></div><div class="wres" id="wr-tikka"></div>
   </div>
   <div class="sec-lbl">Ab Woche 5 — Normalbetrieb</div>
@@ -189,12 +188,12 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);line-height:1
 </div>
 
 <div id="snacks" class="view">
-  <p style="font-size:.82rem;color:#6B6960;margin-bottom:1rem">Täglich rotieren. Anklicken zum Bearbeiten der Zutaten — wird gespeichert.</p>
+  <p style="font-size:.82rem;color:#6B6960;margin-bottom:1rem">Täglich rotieren. Anklicken zum Bearbeiten.</p>
   <div class="sn-grid" id="sgrid"></div>
 </div>
 
 <div id="abend" class="view">
-  <p style="font-size:.82rem;color:#6B6960;margin-bottom:1rem">Feste Rotation Mo–So. Anklicken zum Bearbeiten der Mengen — wird gespeichert. KH immer dabei.</p>
+  <p style="font-size:.82rem;color:#6B6960;margin-bottom:1rem">Feste Rotation Mo–So. Anklicken zum Bearbeiten. KH immer dabei.</p>
   <div class="sn-grid" id="fgrid"></div>
 </div>
 
@@ -202,186 +201,318 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);line-height:1
 <div class="ov" id="ov" onclick="cib(event)"><div class="pp" id="pp"></div></div>
 
 <script>
-var ST={fKg:95,fKc:2900,lKg:62,lKc:1700,week:1};
-var WTS={dahl:0,bolognese:0,gulasch:0,curryhuhn:0,stroganoff:0,butterchicken:0,tikka:0};
-var DW={dahl:4800,bolognese:3600,gulasch:4000,curryhuhn:2600,stroganoff:2900,butterchicken:3200,tikka:3400};
-var ROT=["dahl","bolognese","gulasch","curryhuhn","stroganoff","butterchicken","tikka"];
-var RN={dahl:"Hähnchen-Kokos-Dahl",bolognese:"Turkey-Bolognese",gulasch:"Ofengulasch",curryhuhn:"Curryhuhn",stroganoff:"Stroganoff",butterchicken:"Butter Chicken",tikka:"Tikka Masala"};
-var OJkc=88,OJp=1,TKkc=295,TKp=33,TKf=9,TLkc=221,TLp=25,TLf=7;
-var BK={Reis:1.30,Nudeln:1.30,Kartoffeln:0.77};
-var PLAN=[
-  {tag:"Montag",   cls:"re",b:"Reis",      g1:"dahl",       g2:"butterchicken",fr:"porridge",   lOJ:false},
-  {tag:"Dienstag", cls:"re",b:"Nudeln",    g1:"bolognese",  g2:"stroganoff",   fr:"ruehrei",    lOJ:true},
-  {tag:"Mittwoch", cls:"tr",b:"Reis",      g1:"curryhuhn",  g2:"tikka",        fr:"porridge",   lOJ:false},
-  {tag:"Donnerstag",cls:"tr",b:"Kartoffeln",g1:"gulasch",   g2:"dahl",         fr:"ruehrei",    lOJ:true},
-  {tag:"Freitag",  cls:"tr",b:"Nudeln",    g1:"stroganoff", g2:"bolognese",    fr:"pfannkuchen",lOJ:true},
-  {tag:"Samstag",  cls:"ko",b:"Reis",      g1:"tikka",      g2:"curryhuhn",    fr:"porridge",   lOJ:false,kochtag:true},
-  {tag:"Sonntag",  cls:"tr",b:"Kartoffeln",g1:"gulasch",    g2:"butterchicken",fr:"pfannkuchen",lOJ:true}
+// ============================================================
+// KONFIGURATION
+// ============================================================
+var ST = {fKg:95, fKc:2900, lKg:62, lKc:1700, week:1};
+
+// Kalorien-Verteilung Trainingstag (Training nach Frühstück)
+var SLOTS_TR = {fr:0.22, m1:0.24, sh:0.18, m2:0.22, ab:0.14};
+// Kalorien-Verteilung Ruhetag
+var SLOTS_RE = {fr:0.20, m1:0.20, sh:0.20, m2:0.20, ab:0.20};
+
+// TK-Gerichte: Protein-Dichte (g P pro g Gericht) und kcal-Dichte
+var TK = {
+  dahl:        {p:0.137, kc:1.14, name:"Hähnchen-Kokos-Dahl"},
+  bolognese:   {p:0.155, kc:1.24, name:"Turkey-Bolognese"},
+  gulasch:     {p:0.120, kc:0.98, name:"Ofengulasch"},
+  curryhuhn:   {p:0.120, kc:1.20, name:"Curryhuhn"},
+  stroganoff:  {p:0.128, kc:0.88, name:"Stroganoff"},
+  butterchicken:{p:0.108, kc:1.08, name:"Butter Chicken"},
+  tikka:       {p:0.116, kc:1.04, name:"Tikka Masala"}
+};
+
+// Beilagen: kcal pro g gekocht
+var BK = {Reis:1.30, Nudeln:1.30, Kartoffeln:0.77};
+
+// Wochenplan
+var PLAN = [
+  {tag:"Montag",    cls:"re", b:"Reis",       g1:"dahl",        g2:"butterchicken", fr:"porridge",    lOJ:false},
+  {tag:"Dienstag",  cls:"re", b:"Nudeln",     g1:"bolognese",   g2:"stroganoff",    fr:"ruehrei",     lOJ:true},
+  {tag:"Mittwoch",  cls:"tr", b:"Reis",       g1:"curryhuhn",   g2:"tikka",         fr:"porridge",    lOJ:false},
+  {tag:"Donnerstag",cls:"tr", b:"Kartoffeln", g1:"gulasch",     g2:"dahl",          fr:"ruehrei",     lOJ:true},
+  {tag:"Freitag",   cls:"tr", b:"Nudeln",     g1:"stroganoff",  g2:"bolognese",     fr:"pfannkuchen", lOJ:true},
+  {tag:"Samstag",   cls:"ko", b:"Reis",       g1:"tikka",       g2:"curryhuhn",     fr:"porridge",    lOJ:false, kochtag:true},
+  {tag:"Sonntag",   cls:"tr", b:"Kartoffeln", g1:"gulasch",     g2:"butterchicken", fr:"pfannkuchen", lOJ:true}
 ];
 
-// Editierbare Rezept-Defaults (Makros per Einheit)
-var REC={
-  porridge:{name:"Porridge light + OJ",steps:["Haferflocken, Whey + 100ml Wasser erhitzen. Rühren.","Hafermilch dazu wenn andickt, kurz aufkochen.","Erdbeeren 2:30 Min Mikrowelle. Apfel würfeln.","Walnüsse + Früchte drauf. OJ separat trinken."],tip:"F: OJ täglich. L: OJ nur Di/Do/Fr/So.",
+// Portionsgewichte TK
+var WTS = {dahl:0,bolognese:0,gulasch:0,curryhuhn:0,stroganoff:0,butterchicken:0,tikka:0};
+var DW  = {dahl:4800,bolognese:3600,gulasch:4000,curryhuhn:2600,stroganoff:2900,butterchicken:3200,tikka:3400};
+var ROT = ["dahl","bolognese","gulasch","curryhuhn","stroganoff","butterchicken","tikka"];
+
+// Editierbare Frühstücks-Rezepte (Basis-Werte bei 95kg)
+var REC = {
+  porridge:{name:"Porridge + OJ",
     ing:[{n:"Haferflocken zart",v:40,u:"g",kc:1.50,p:0.130,f:0.030,k:0.280},
          {n:"Whey Protein",v:40,u:"g",kc:4.00,p:0.800,f:0.050,k:0.050},
          {n:"Walnüsse",v:20,u:"g",kc:6.50,p:0.150,f:0.650,k:0.140},
          {n:"Hafermilch",v:35,u:"ml",kc:0.46,p:0.010,f:0.020,k:0.070},
          {n:"Erdbeeren TK",v:120,u:"g",kc:0.32,p:0.007,f:0.003,k:0.077},
          {n:"Apfel",v:60,u:"g",kc:0.52,p:0.003,f:0.002,k:0.138},
-         {n:"Orangensaft",v:200,u:"ml",kc:0.44,p:0.007,f:0.002,k:0.100}]},
-  ruehrei:{name:"Rührei + Toast + OJ",steps:["Eier + Eiklar verquirlen, würzen.","Optional Spinat/Tomaten/Pilze rein.","Pfanne mittlere Hitze, goldbraun stocken.","Toast parallel. OJ dazu trinken."],tip:"Vitamin C aus OJ verbessert Eisenaufnahme. L: nur 1 Scheibe Toast.",
+         {n:"Orangensaft",v:200,u:"ml",kc:0.44,p:0.007,f:0.002,k:0.100}],
+    steps:["Haferflocken + Whey + 100ml Wasser erhitzen, rühren.","Hafermilch dazu, kurz aufkochen.","Erdbeeren 2:30 Min Mikrowelle. Apfel würfeln.","Garnieren. OJ separat trinken."],
+    tip:"F: OJ täglich. L: OJ nur Di/Do/Fr/So."},
+  ruehrei:{name:"Rührei + Toast + OJ",
     ing:[{n:"Eier M",v:2,u:"Stk",kc:74,p:6.3,f:5.3,k:0.4},
          {n:"Eiklar",v:150,u:"g",kc:0.52,p:0.110,f:0.001,k:0.007},
          {n:"Vollkorntoast",v:2,u:"Schb.",kc:90,p:3.5,f:1.0,k:16.0},
-         {n:"Orangensaft",v:200,u:"ml",kc:0.44,p:0.007,f:0.002,k:0.100}]},
-  pfannkuchen:{name:"Pfannkuchen (Protein) + OJ",steps:["Alle Zutaten (außer OJ) mischen.","Mit Handmixer glatt rühren.","Pfanne fetten, mittlere Hitze, goldbraun backen.","L: alle Mengen halbieren. OJ separat."],tip:"65g Mehl — nicht 80g! Magerquark als Topping: +11g Protein.",
+         {n:"Orangensaft",v:200,u:"ml",kc:0.44,p:0.007,f:0.002,k:0.100}],
+    steps:["Eier + Eiklar verquirlen, würzen.","Pfanne mittlere Hitze, goldbraun.","Toast parallel. OJ dazu."],
+    tip:"L: nur 1 Scheibe Toast."},
+  pfannkuchen:{name:"Pfannkuchen (Protein) + OJ",
     ing:[{n:"Ei M",v:1,u:"Stk",kc:74,p:6.3,f:5.3,k:0.4},
          {n:"Mehl",v:65,u:"g",kc:3.40,p:0.100,f:0.010,k:0.710},
          {n:"Whey Protein",v:50,u:"g",kc:4.00,p:0.800,f:0.050,k:0.050},
          {n:"Hafermilch",v:114,u:"ml",kc:0.46,p:0.010,f:0.020,k:0.070},
          {n:"Sprudelwasser",v:34,u:"ml",kc:0,p:0,f:0,k:0},
-         {n:"Orangensaft",v:200,u:"ml",kc:0.44,p:0.007,f:0.002,k:0.100}]},
-  shake:{name:"Shake — Whey + Zerealien + Walnüsse",steps:["Whey + 250ml Wasser oder Milch shaken.","Zerealien + Walnüsse separat in Schüssel.","Zusammen oder getrennt essen."],tip:"Walnüsse geben Omega-3. Zerealien für schnelle KH nach dem Training.",
-    ing:[{n:"Whey Protein",v:40,u:"g",kc:4.00,p:0.800,f:0.050,k:0.050},
-         {n:"Zerealien",v:40,u:"g",kc:4.00,p:0.100,f:0.025,k:0.850},
-         {n:"Walnüsse",v:30,u:"g",kc:6.50,p:0.150,f:0.650,k:0.140}]}
+         {n:"Orangensaft",v:200,u:"ml",kc:0.44,p:0.007,f:0.002,k:0.100}],
+    steps:["Alle Zutaten mischen, glatt rühren.","Pfanne fetten, goldbraun backen.","L: Mengen halbieren. OJ separat."],
+    tip:"65g Mehl — nicht 80g!"},
+  shake:{name:"Isoclear Shake + Zerealien",
+    ing:[{n:"Isoclear Whey",v:30,u:"g",kc:4.00,p:1.00,f:0.00,k:0.00},
+         {n:"Zerealien",v:40,u:"g",kc:4.00,p:0.100,f:0.025,k:0.850}],
+    steps:["Isoclear + 400ml Wasser shaken.","Zerealien separat in Schüssel.","Zusammen oder getrennt essen."],
+    tip:"Isoclear = 30g Pulver → 30g Protein. Zerealien für KH nach Training."}
 };
 
-// Abend-Rotation Florian (Mo–So fest)
-var ABEND=[
-  {tag:"Mo",name:"Skyr + Banane",tip:"KH aus Banane für Proteinaufnahme.",
-    ing:[{n:"Skyr",v:300,u:"g",kc:0.67,p:0.115,f:0.003,k:0.038},{n:"Banane",v:120,u:"g",kc:0.89,p:0.011,f:0.003,k:0.230}]},
-  {tag:"Di",name:"Griech. Joghurt + Haferflocken + Honig",tip:"Haferflocken = langsame KH, ideal abends.",
-    ing:[{n:"Griech. Joghurt 2%",v:300,u:"g",kc:0.73,p:0.090,f:0.020,k:0.040},{n:"Haferflocken",v:40,u:"g",kc:1.50,p:0.130,f:0.030,k:0.280},{n:"Honig",v:15,u:"g",kc:3.00,p:0.003,f:0,k:0.820}]},
-  {tag:"Mi",name:"Körniger Frischkäse + Gemüse + Brot",tip:"Brot gibt KH, Gemüse Volumen ohne Kalorien.",
-    ing:[{n:"Körniger Frischkäse",v:200,u:"g",kc:0.97,p:0.105,f:0.040,k:0.035},{n:"Gurke/Paprika",v:100,u:"g",kc:0.20,p:0.010,f:0.002,k:0.040},{n:"Vollkornbrot",v:80,u:"g",kc:2.20,p:0.085,f:0.025,k:0.400}]},
-  {tag:"Do",name:"Skyr + Beeren + Granola",tip:"Granola gibt KH. Nicht zu viel — kalorienreich.",
-    ing:[{n:"Skyr",v:300,u:"g",kc:0.67,p:0.115,f:0.003,k:0.038},{n:"Beeren gemischt",v:100,u:"g",kc:0.45,p:0.010,f:0.005,k:0.100},{n:"Granola",v:30,u:"g",kc:4.50,p:0.080,f:0.120,k:0.620}]},
-  {tag:"Fr",name:"Körniger Frischkäse + Apfel + Brot",tip:"Apfel als natürliche KH-Quelle abends.",
-    ing:[{n:"Körniger Frischkäse",v:200,u:"g",kc:0.97,p:0.105,f:0.040,k:0.035},{n:"Apfel",v:120,u:"g",kc:0.52,p:0.003,f:0.002,k:0.138},{n:"Vollkornbrot",v:80,u:"g",kc:2.20,p:0.085,f:0.025,k:0.400}]},
-  {tag:"Sa",name:"Griech. Joghurt + Müsli + Beeren",tip:"Müsli liefert komplexe KH und Ballaststoffe.",
-    ing:[{n:"Griech. Joghurt 2%",v:300,u:"g",kc:0.73,p:0.090,f:0.020,k:0.040},{n:"Müsli (ohne Zucker)",v:40,u:"g",kc:3.80,p:0.100,f:0.070,k:0.650},{n:"Beeren gemischt",v:80,u:"g",kc:0.45,p:0.010,f:0.005,k:0.100}]},
-  {tag:"So",name:"Skyr + Apfel + Zimt",tip:"Zimt stabilisiert Blutzucker. Apfel = natürliche KH.",
-    ing:[{n:"Skyr",v:300,u:"g",kc:0.67,p:0.115,f:0.003,k:0.038},{n:"Apfel",v:120,u:"g",kc:0.52,p:0.003,f:0.002,k:0.138},{n:"Zimt",v:2,u:"g",kc:2.50,p:0.040,f:0.015,k:0.550}]}
+// Abend-Rotation Florian (Mo–So)
+var ABEND = [
+  {tag:"Mo",name:"Skyr + Banane",
+   ing:[{n:"Skyr",v:300,u:"g",kc:0.67,p:0.115,f:0.003,k:0.038},{n:"Banane",v:120,u:"g",kc:0.89,p:0.011,f:0.003,k:0.230}],
+   tip:"KH aus Banane für Proteinaufnahme."},
+  {tag:"Di",name:"Griech. Joghurt + Haferflocken + Honig",
+   ing:[{n:"Griech. Joghurt 2%",v:300,u:"g",kc:0.73,p:0.090,f:0.020,k:0.040},{n:"Haferflocken",v:40,u:"g",kc:1.50,p:0.130,f:0.030,k:0.280},{n:"Honig",v:15,u:"g",kc:3.00,p:0.003,f:0,k:0.820}],
+   tip:"Haferflocken = langsame KH."},
+  {tag:"Mi",name:"Körniger Frischkäse + Gemüse + Brot",
+   ing:[{n:"Körniger Frischkäse",v:200,u:"g",kc:0.97,p:0.105,f:0.040,k:0.035},{n:"Gurke/Paprika",v:100,u:"g",kc:0.20,p:0.010,f:0.002,k:0.040},{n:"Vollkornbrot",v:80,u:"g",kc:2.20,p:0.085,f:0.025,k:0.400}],
+   tip:"Brot gibt KH, Gemüse Volumen."},
+  {tag:"Do",name:"Skyr + Beeren + Granola",
+   ing:[{n:"Skyr",v:300,u:"g",kc:0.67,p:0.115,f:0.003,k:0.038},{n:"Beeren gemischt",v:100,u:"g",kc:0.45,p:0.010,f:0.005,k:0.100},{n:"Granola",v:30,u:"g",kc:4.50,p:0.080,f:0.120,k:0.620}],
+   tip:"Granola gibt KH."},
+  {tag:"Fr",name:"Körniger Frischkäse + Apfel + Brot",
+   ing:[{n:"Körniger Frischkäse",v:200,u:"g",kc:0.97,p:0.105,f:0.040,k:0.035},{n:"Apfel",v:120,u:"g",kc:0.52,p:0.003,f:0.002,k:0.138},{n:"Vollkornbrot",v:80,u:"g",kc:2.20,p:0.085,f:0.025,k:0.400}],
+   tip:"Apfel als natürliche KH-Quelle."},
+  {tag:"Sa",name:"Griech. Joghurt + Müsli + Beeren",
+   ing:[{n:"Griech. Joghurt 2%",v:300,u:"g",kc:0.73,p:0.090,f:0.020,k:0.040},{n:"Müsli (ohne Zucker)",v:40,u:"g",kc:3.80,p:0.100,f:0.070,k:0.650},{n:"Beeren gemischt",v:80,u:"g",kc:0.45,p:0.010,f:0.005,k:0.100}],
+   tip:"Müsli = komplexe KH."},
+  {tag:"So",name:"Skyr + Apfel + Zimt",
+   ing:[{n:"Skyr",v:300,u:"g",kc:0.67,p:0.115,f:0.003,k:0.038},{n:"Apfel",v:120,u:"g",kc:0.52,p:0.003,f:0.002,k:0.138},{n:"Zimt",v:2,u:"g",kc:2.50,p:0.040,f:0.015,k:0.550}],
+   tip:"Zimt stabilisiert Blutzucker."}
 ];
 
 // Laura Snacks
-var SNACK=[
-  {tag:"Tagsüber",tc:"#FDF3E3",tt:"#92600A",name:"Skyr + Beeren + Granola",tip:"Tagsüber als Snack.",
-    ing:[{n:"Skyr",v:150,u:"g",kc:0.67,p:0.115,f:0.003,k:0.038},{n:"Beeren",v:80,u:"g",kc:0.45,p:0.010,f:0.005,k:0.100},{n:"Granola",v:20,u:"g",kc:4.50,p:0.080,f:0.120,k:0.620}]},
-  {tag:"Tagsüber",tc:"#FDF3E3",tt:"#92600A",name:"Reiswaffeln + Erdnussbutter",tip:"Schnell für unterwegs.",
-    ing:[{n:"Reiswaffeln",v:33,u:"g",kc:3.90,p:0.080,f:0.030,k:0.800},{n:"Erdnussbutter",v:20,u:"g",kc:6.00,p:0.250,f:0.500,k:0.220}]},
-  {tag:"Abend",tc:"#E8F5EE",tt:"#1A7A4A",name:"Körniger Frischkäse + Gemüse",tip:"Leicht, proteinreich.",
-    ing:[{n:"Körniger Frischkäse",v:150,u:"g",kc:0.97,p:0.105,f:0.040,k:0.035},{n:"Gurke oder Paprika",v:100,u:"g",kc:0.20,p:0.010,f:0.002,k:0.040}]},
-  {tag:"Abend",tc:"#E8F5EE",tt:"#1A7A4A",name:"Hartgekochte Eier",tip:"4–6 auf einmal kochen und lagern.",
-    ing:[{n:"Eier",v:2,u:"Stk",kc:74,p:6.3,f:5.3,k:0.4}]},
-  {tag:"Abend",tc:"#E8F5EE",tt:"#1A7A4A",name:"Magerquark + Beeren",tip:"Casein-Protein — ideal vor dem Schlafen.",
-    ing:[{n:"Magerquark",v:200,u:"g",kc:0.80,p:0.120,f:0.002,k:0.040},{n:"Beeren",v:80,u:"g",kc:0.45,p:0.010,f:0.005,k:0.100}]}
+var SNACK = [
+  {tag:"Tagsüber",tc:"#FDF3E3",tt:"#92600A",name:"Skyr + Beeren + Granola",
+   ing:[{n:"Skyr",v:150,u:"g",kc:0.67,p:0.115,f:0.003,k:0.038},{n:"Beeren",v:80,u:"g",kc:0.45,p:0.010,f:0.005,k:0.100},{n:"Granola",v:20,u:"g",kc:4.50,p:0.080,f:0.120,k:0.620}],
+   tip:"Tagsüber als Snack."},
+  {tag:"Tagsüber",tc:"#FDF3E3",tt:"#92600A",name:"Reiswaffeln + Erdnussbutter",
+   ing:[{n:"Reiswaffeln",v:33,u:"g",kc:3.90,p:0.080,f:0.030,k:0.800},{n:"Erdnussbutter",v:20,u:"g",kc:6.00,p:0.250,f:0.500,k:0.220}],
+   tip:"Schnell für unterwegs."},
+  {tag:"Abend",tc:"#E8F5EE",tt:"#1A7A4A",name:"Körniger Frischkäse + Gemüse",
+   ing:[{n:"Körniger Frischkäse",v:150,u:"g",kc:0.97,p:0.105,f:0.040,k:0.035},{n:"Gurke oder Paprika",v:100,u:"g",kc:0.20,p:0.010,f:0.002,k:0.040}],
+   tip:"Leicht, proteinreich."},
+  {tag:"Abend",tc:"#E8F5EE",tt:"#1A7A4A",name:"Hartgekochte Eier",
+   ing:[{n:"Eier",v:2,u:"Stk",kc:74,p:6.3,f:5.3,k:0.4}],
+   tip:"4–6 auf einmal kochen."},
+  {tag:"Abend",tc:"#E8F5EE",tt:"#1A7A4A",name:"Magerquark + Beeren",
+   ing:[{n:"Magerquark",v:200,u:"g",kc:0.80,p:0.120,f:0.002,k:0.040},{n:"Beeren",v:80,u:"g",kc:0.45,p:0.010,f:0.005,k:0.100}],
+   tip:"Casein — ideal vor dem Schlafen."}
 ];
 
-// Makros berechnen
-var BASE_KC=2900;
-var BASE_KG=95;
-function scaleFactor(kc){return kc/BASE_KC;}
-function weightFactor(kg){return kg/BASE_KG;}
-function mac(ing,factor){
-  var f=factor||1;
-  var r={kc:0,p:0,f:0,k:0};
-  ing.forEach(function(x){
-    var v=x.v*f;
-    r.kc+=x.kc*v;r.p+=x.p*v;r.f+=x.f*v;r.k+=x.k*v;
+// ============================================================
+// CORE BERECHNUNG
+// ============================================================
+
+// Makros aus Zutaten-Array berechnen (mit optionalem Skalierungsfaktor)
+function mac(ing, f) {
+  f = f || 1;
+  var r = {kc:0, p:0, f:0, k:0};
+  ing.forEach(function(x) {
+    var v = x.v * f;
+    r.kc += x.kc * v; r.p += x.p * v; r.f += x.f * v; r.k += x.k * v;
   });
-  return {kc:Math.round(r.kc),p:Math.round(r.p),f:Math.round(r.f),k:Math.round(r.k)};
-}
-function scaledV(v,f){return Math.round(v*f*10)/10;}
-
-// Speicher
-function loadRec(key,ing){try{var s=localStorage.getItem("rec-"+key);if(s){var d=JSON.parse(s);d.forEach(function(v,i){if(ing[i])ing[i].v=v;});}}catch(e){}}
-function saveRec(key,ing){try{localStorage.setItem("rec-"+key,JSON.stringify(ing.map(function(x){return x.v;})));}catch(e){}}
-function loadAll(){
-  Object.keys(REC).forEach(function(k){loadRec(k,REC[k].ing);});
-  ABEND.forEach(function(r,i){loadRec("ab"+i,r.ing);});
-  SNACK.forEach(function(r,i){loadRec("sn"+i,r.ing);});
+  return {kc:Math.round(r.kc), p:Math.round(r.p), f:Math.round(r.f), k:Math.round(r.k)};
 }
 
-// Portionsgröße TK
-function portG(id,p){var w=WTS[id]>0?WTS[id]:DW[id];var fp=Math.round(w/20*weightFactor(ST.fKg));return p==="F"?fp:Math.round(fp*0.75);}
-function updWR(id,v){var el=document.getElementById("wr-"+id);if(!el)return;var fp=Math.round(v/20),lp=Math.round(fp*0.75);el.innerHTML="Florian: <strong>"+fp+"g</strong> pro Dose &nbsp;·&nbsp; Laura: <strong>"+lp+"g</strong> pro Dose";}
-function saveW(id){var v=parseInt(document.getElementById("w-"+id).value);if(!v||v<100)return;WTS[id]=v;updWR(id,v);try{localStorage.setItem("mp-w-"+id,String(v));document.getElementById("ws-"+id).style.display="inline";}catch(e){}renderWeek();}
-function loadW(){ROT.forEach(function(id){try{var v=localStorage.getItem("mp-w-"+id);if(v){var n=parseInt(v);WTS[id]=n;document.getElementById("w-"+id).value=n;document.getElementById("ws-"+id).style.display="inline";updWR(id,n);}else{updWR(id,DW[id]);}}catch(e){updWR(id,DW[id]);}});}
+// Protein-Ziel pro Slot (gleichmäßig verteilt)
+function pSlot(kg) { return Math.max(30, Math.round(kg * 2 / 5)); }
 
-function renderInfo(){
-  var fP=ST.fKg*2,lP=ST.lKg*2;
-  var fTr=Math.round(ST.fKc*1.10),fRe=Math.round(ST.fKc*0.90);
-  var lTr=Math.round(ST.lKc*1.10),lRe=Math.round(ST.lKc*0.90);
-  document.getElementById("f-info").innerHTML="Protein: <strong>"+fP+"g</strong>/Tag &nbsp;·&nbsp; Ruhe: ~"+fRe+"kcal &nbsp;·&nbsp; Training: ~"+fTr+"kcal<br>Fett: ~53g/Tag &nbsp;·&nbsp; Omega-3: 30g Walnüsse im Shake";
-  document.getElementById("l-info").innerHTML="Protein: <strong>"+lP+"g</strong>/Tag &nbsp;·&nbsp; Ruhe: ~"+lRe+"kcal &nbsp;·&nbsp; Training: ~"+lTr+"kcal<br>Fett: ~26g/Tag";
+// TK-Portion berechnen: soviel TK dass Protein-Ziel erreicht wird
+function tkPortion(tkId, pTarget) {
+  var tk = TK[tkId];
+  // Gewicht TK-Gericht = pTarget / p-Dichte
+  return Math.round(pTarget / tk.p);
 }
 
-function renderWeek(){
-  var fKcB=ST.fKc,lKcB=ST.lKc,fP=ST.fKg*2,lP=ST.lKg*2;
-  var SHfix=mac(REC.shake.ing,scaleFactor(ST.fKc)*weightFactor(ST.fKg));
-  var html="";
-  for(var i=0;i<PLAN.length;i++){
-    var p=PLAN[i];
-    var isTr=p.cls==="tr"||p.cls==="ko";
-    var fKc=Math.round(isTr?fKcB*1.10:fKcB*0.90);
-    var lKc=Math.round(isTr?lKcB*1.10:lKcB*0.90);
-    var fFrS,fM1S,fM2S;
-    if(isTr){fFrS=Math.round(fKc*0.26);fM1S=Math.round(fKc*0.26);fM2S=Math.round(fKc*0.22);}
-    else{fFrS=Math.round(fKc*0.22);fM1S=Math.round(fKc*0.22);fM2S=Math.round(fKc*0.22);}
-    var fAbS=Math.max(300,fKc-fFrS-fM1S-SHfix.kc-fM2S);
-    var lS=Math.round(lKc/5);
+// TK-Kalorien für eine Portion
+function tkKcal(tkId, pTarget) {
+  var g = tkPortion(tkId, pTarget);
+  return Math.round(g * TK[tkId].kc);
+}
 
-    var ff=REC[p.fr],ffM=mac(ff.ing,scaleFactor(fKc)),shM=SHfix;
-    var lOJkc=p.lOJ?OJkc:0,lOJp=p.lOJ?OJp:0;
-    var lFrNames={porridge:"Porridge",ruehrei:"Rührei + Toast",pfannkuchen:"Pfannkuchen ½"};
-    var lFrKc={porridge:350,ruehrei:240,pfannkuchen:270};
-    var lFrP={porridge:30,ruehrei:27,pfannkuchen:27};
+// Beilage-Gramm: füllt restliche Slot-Kalorien auf
+function beiGramm(slotKc, tkKc, bKey) {
+  var rest = slotKc - tkKc;
+  return Math.max(0, Math.round(rest / BK[bKey]));
+}
 
-    var bk=BK[p.b];
-    var fBg1=Math.max(50,Math.round((fM1S-TKkc)/bk));
-    var fBg2=Math.max(50,Math.round((fM2S-TKkc)/bk));
-    var lBg=Math.max(20,Math.round((lS-TLkc)/bk));
-    var fTKkc=Math.round(TKkc*weightFactor(ST.fKg));
-    var fM1kc=fTKkc+Math.round(fBg1*bk),fM2kc=fTKkc+Math.round(fBg2*bk);
-    var lMkc=TLkc+Math.round(lBg*bk);
-    var abM=mac(ABEND[i].ing,scaleFactor(fKc)*weightFactor(ST.fKg));
-    var fg1=portG(p.g1,"F"),lg1=portG(p.g1,"L"),fg2=portG(p.g2,"F"),lg2=portG(p.g2,"L");
-    var fTot=ffM.kc+fM1kc+shM.kc+fM2kc+abM.kc;
-    var fTKp=Math.round(TKp*weightFactor(ST.fKg));
-    var fPTot=ffM.p+fTKp+shM.p+fTKp+abM.p;
-    var lFrTotal=lOJkc+lFrKc[p.fr],lSnKc=lS,lAbKc=Math.max(100,lKc-(lFrTotal+lMkc+lSnKc+lMkc));
-    var lTot=lFrTotal+lMkc+lSnKc+lMkc+lAbKc;
-    var lPTot=lOJp+lFrP[p.fr]+TLp+15+TLp+18;
-    var fPct=Math.min(110,Math.round(fTot/fKc*100));
-    var lPct=Math.min(110,Math.round(lTot/lKc*100));
-    var fc=fPct>107?"#B02020":fPct>95?"#1A7A4A":"#D08A10";
-    var lc=lPct>107?"#B02020":lPct>95?"#1A7A4A":"#D08A10";
-    var gest=(fBg1+fBg2+lBg*2);
-    var kBox=p.kochtag?'<div class="ckb"><div class="ckb-l" id="sa-lbl"></div><div id="sa-dish"></div></div>':"";
-    var lOJs=p.lOJ?"OJ + ":"";
-    var lOJh=p.lOJ?"":'<span style="font-size:.58rem;color:#9B9890"> (kein OJ)</span>';
-    var trB=isTr?'<span class="bdg tr">Training</span>':'<span class="bdg re">Ruhe</span>';
-    var kB=p.kochtag?'<span class="bdg ko">Kochtag</span>':"";
+// Portionsgröße aus Gesamtgewicht (für Kochplan-Anzeige)
+function portGKoch(id) {
+  var w = WTS[id] > 0 ? WTS[id] : DW[id];
+  return Math.round(w / 20);
+}
 
-    html+='<div class="dc '+p.cls+'">'+
+// ============================================================
+// localStorage
+// ============================================================
+function loadRec(key, ing) {
+  try { var s = localStorage.getItem("rec-" + key); if(s){var d=JSON.parse(s);d.forEach(function(v,i){if(ing[i])ing[i].v=v;});} } catch(e) {}
+}
+function saveRec(key, ing) {
+  try { localStorage.setItem("rec-" + key, JSON.stringify(ing.map(function(x){return x.v;}))); } catch(e) {}
+}
+function loadAll() {
+  Object.keys(REC).forEach(function(k){loadRec(k, REC[k].ing);});
+  ABEND.forEach(function(r,i){loadRec("ab"+i, r.ing);});
+  SNACK.forEach(function(r,i){loadRec("sn"+i, r.ing);});
+}
+function updWR(id, v) {
+  var el = document.getElementById("wr-" + id);
+  if(!el) return;
+  var fp = Math.round(v/20), lp = Math.round(fp*0.75);
+  el.innerHTML = "Florian: <strong>"+fp+"g</strong> pro Dose &nbsp;·&nbsp; Laura: <strong>"+lp+"g</strong> pro Dose";
+}
+function saveW(id) {
+  var v = parseInt(document.getElementById("w-"+id).value);
+  if(!v||v<100) return;
+  WTS[id] = v; updWR(id, v);
+  try { localStorage.setItem("mp-w-"+id, String(v)); document.getElementById("ws-"+id).style.display="inline"; } catch(e) {}
+}
+function loadW() {
+  ROT.forEach(function(id) {
+    try {
+      var v = localStorage.getItem("mp-w-"+id);
+      if(v){var n=parseInt(v);WTS[id]=n;document.getElementById("w-"+id).value=n;document.getElementById("ws-"+id).style.display="inline";updWR(id,n);}
+      else{updWR(id,DW[id]);}
+    } catch(e){updWR(id,DW[id]);}
+  });
+}
+
+// ============================================================
+// RENDER
+// ============================================================
+function renderInfo() {
+  var fP = ST.fKg*2, lP = ST.lKg*2;
+  var fPs = pSlot(ST.fKg), lPs = pSlot(ST.lKg);
+  var fTr = Math.round(ST.fKc*1.10), fRe = Math.round(ST.fKc*0.90);
+  var lTr = Math.round(ST.lKc*1.10), lRe = Math.round(ST.lKc*0.90);
+  document.getElementById("f-info").innerHTML =
+    "Protein: <strong>"+fP+"g</strong>/Tag · Ziel pro Slot: <strong>"+fPs+"g P</strong><br>"+
+    "Ruhe: ~"+fRe+"kcal · Training: ~"+fTr+"kcal · Fett: ~53g/Tag";
+  document.getElementById("l-info").innerHTML =
+    "Protein: <strong>"+lP+"g</strong>/Tag · Ziel pro Slot: <strong>"+lPs+"g P</strong><br>"+
+    "Ruhe: ~"+lRe+"kcal · Training: ~"+lTr+"kcal";
+}
+
+function renderWeek() {
+  var fP = ST.fKg*2, lP = ST.lKg*2;
+  var fPs = pSlot(ST.fKg);
+  var html = "";
+
+  for(var i = 0; i < PLAN.length; i++) {
+    var p = PLAN[i];
+    var isTr = p.cls==="tr" || p.cls==="ko";
+    var fKc = Math.round(isTr ? ST.fKc*1.10 : ST.fKc*0.90);
+    var lKc = Math.round(isTr ? ST.lKc*1.10 : ST.lKc*0.90);
+    var sl = isTr ? SLOTS_TR : SLOTS_RE;
+
+    // Slot-Kalorien Florian
+    var fFrSlot = Math.round(fKc * sl.fr);
+    var fM1Slot = Math.round(fKc * sl.m1);
+    var fShSlot = Math.round(fKc * sl.sh);
+    var fM2Slot = Math.round(fKc * sl.m2);
+    var fAbSlot = fKc - fFrSlot - fM1Slot - fShSlot - fM2Slot;
+
+    // Frühstück Florian (Rezept skaliert mit Gewicht für Protein)
+    var wf = ST.fKg / 95;
+    var ffMac = mac(REC[p.fr].ing, wf);
+    var ojKc = 88, ojP = 1;
+    var fFrKc = ffMac.kc + ojKc;
+    var fFrP  = ffMac.p  + ojP;
+
+    // M1 Florian: TK-Portion nach Protein-Ziel
+    var fTkG1 = tkPortion(p.g1, fPs);
+    var fTkKc1 = Math.round(fTkG1 * TK[p.g1].kc);
+    var fBg1  = beiGramm(fM1Slot, fTkKc1, p.b);
+    var fM1Kc = fTkKc1 + Math.round(fBg1 * BK[p.b]);
+
+    // Shake Florian
+    var shWf = ST.fKg / 95;
+    var shMac = mac(REC.shake.ing, shWf);
+
+    // M2 Florian
+    var fTkG2 = tkPortion(p.g2, fPs);
+    var fTkKc2 = Math.round(fTkG2 * TK[p.g2].kc);
+    var fBg2  = beiGramm(fM2Slot, fTkKc2, p.b);
+    var fM2Kc = fTkKc2 + Math.round(fBg2 * BK[p.b]);
+
+    // Abend Florian (skaliert mit Gewicht)
+    var abMac = mac(ABEND[i].ing, wf);
+
+    // Tagessumme Florian
+    var fTot = fFrKc + fM1Kc + shMac.kc + fM2Kc + abMac.kc;
+    var fPTot = fFrP + fPs + shMac.p + fPs + abMac.p;
+
+    // Laura (vereinfacht: gleichmäßige Slots, L-Portion = 75% TK)
+    var lS = Math.round(lKc / 5);
+    var lPs = pSlot(ST.lKg);
+    var lOJkc = p.lOJ ? ojKc : 0, lOJp = p.lOJ ? ojP : 0;
+    var lFrKcArr = {porridge:350, ruehrei:240, pfannkuchen:270};
+    var lFrPArr  = {porridge:30,  ruehrei:27,  pfannkuchen:27};
+    var lFrNArr  = {porridge:"Porridge", ruehrei:"Rührei + Toast", pfannkuchen:"Pfannkuchen ½"};
+    var lFrKc = lOJkc + lFrKcArr[p.fr], lFrP = lOJp + lFrPArr[p.fr];
+    var lTkG1 = Math.round(tkPortion(p.g1, lPs) * 0.75);
+    var lTkKc1 = Math.round(lTkG1 * TK[p.g1].kc);
+    var lBg1 = beiGramm(lS, lTkKc1, p.b);
+    var lM1Kc = lTkKc1 + Math.round(lBg1 * BK[p.b]);
+    var lTkG2 = Math.round(tkPortion(p.g2, lPs) * 0.75);
+    var lTkKc2 = Math.round(lTkG2 * TK[p.g2].kc);
+    var lBg2 = beiGramm(lS, lTkKc2, p.b);
+    var lM2Kc = lTkKc2 + Math.round(lBg2 * BK[p.b]);
+    var lSnKc = lS, lAbKc = Math.max(100, lKc - (lFrKc + lM1Kc + lSnKc + lM2Kc));
+    var lTot = lFrKc + lM1Kc + lSnKc + lM2Kc + lAbKc;
+    var lPTot = lFrP + lPs + 15 + lPs + 18;
+
+    var fPct = Math.min(110, Math.round(fTot/fKc*100));
+    var lPct = Math.min(110, Math.round(lTot/lKc*100));
+    var fc = fPct>107?"#B02020":fPct>95?"#1A7A4A":"#D08A10";
+    var lc = lPct>107?"#B02020":lPct>95?"#1A7A4A":"#D08A10";
+
+    var kBox = p.kochtag ? '<div class="ckb"><div class="ckb-l" id="sa-lbl"></div><div id="sa-dish"></div></div>' : "";
+    var trB = isTr ? '<span class="bdg tr">Training</span>' : '<span class="bdg re">Ruhe</span>';
+    var kB = p.kochtag ? '<span class="bdg ko">Kochtag</span>' : "";
+    var lOJs = p.lOJ ? "OJ + " : "";
+    var lOJh = p.lOJ ? "" : '<span style="font-size:.58rem;color:#9B9890"> (kein OJ)</span>';
+    var gest = fBg1 + fBg2 + lBg1 + lBg2;
+
+    html += '<div class="dc '+p.cls+'">' +
       '<div class="dn">'+p.tag+'</div>'+trB+kB+kBox+
-      '<div class="bei"><div class="bei-n">'+p.b+' · '+gest+'g ges.</div><div class="bei-d">F: '+fBg1+'g/'+fBg2+'g<br>L: 2×'+lBg+'g</div></div>'+
-      '<div class="ml"><div class="ml-l">Frühstück + OJ ('+fFrS+'kcal)</div>'+
-        '<div class="mf" id="fr-f-'+i+'">'+ff.name+' · '+ffM.kc+'kcal / '+ffM.p+'g P</div>'+
-        '<div class="mfl" id="fr-l-'+i+'">'+lOJs+lFrNames[p.fr]+' · '+lFrTotal+'kcal'+lOJh+'</div></div>'+
-      '<div class="ml"><div class="ml-l">Mahlzeit 1 ('+fM1S+'kcal)</div>'+
-        '<div class="mf" id="m1-f-'+i+'">'+RN[p.g1]+' <strong>'+fg1+'g</strong> + '+fBg1+'g '+p.b+' · '+fM1kc+'kcal / '+fTKp+'g P</div>'+
-        '<div class="mfl" id="m1-l-'+i+'">'+RN[p.g1]+' <strong>'+lg1+'g</strong> + '+lBg+'g '+p.b+' · '+lMkc+'kcal / '+TLp+'g P</div></div>'+
-      '<div class="ml"><div class="ml-l">Shake (fix)</div>'+
-        '<div class="mf" id="sh-'+i+'">Shake · '+shM.kc+'kcal / '+shM.p+'g P</div>'+
+      '<div class="bei"><div class="bei-n">'+p.b+' · '+gest+'g ges.</div><div class="bei-d">F: '+fBg1+'g/'+fBg2+'g<br>L: '+lBg1+'g/'+lBg2+'g</div></div>'+
+      '<div class="ml"><div class="ml-l">Frühstück + OJ ('+fFrSlot+'kcal)</div>'+
+        '<div class="mf" id="fr-f-'+i+'">'+REC[p.fr].name+' · '+fFrKc+'kcal / '+fFrP+'g P</div>'+
+        '<div class="mfl">'+lOJs+lFrNArr[p.fr]+' · '+lFrKc+'kcal'+lOJh+'</div></div>'+
+      '<div class="ml"><div class="ml-l">M1 nach Training ('+fM1Slot+'kcal)</div>'+
+        '<div class="mf" id="m1-f-'+i+'">'+TK[p.g1].name+' <strong>'+fTkG1+'g</strong> + '+fBg1+'g '+p.b+' · '+fM1Kc+'kcal / '+fPs+'g P</div>'+
+        '<div class="mfl">'+TK[p.g1].name+' <strong>'+lTkG1+'g</strong> + '+lBg1+'g '+p.b+' · '+lM1Kc+'kcal / '+lPs+'g P</div></div>'+
+      '<div class="ml"><div class="ml-l">Shake + Zerealien ('+fShSlot+'kcal)</div>'+
+        '<div class="mf" id="sh-'+i+'">Isoclear '+Math.round(30*shWf)+'g + Zerealien '+Math.round(40*shWf)+'g · '+shMac.kc+'kcal / '+shMac.p+'g P</div>'+
         '<div class="mfl">L: Snack-Rotation · ~'+lSnKc+'kcal</div></div>'+
-      '<div class="ml"><div class="ml-l">Mahlzeit 2 ('+fM2S+'kcal)</div>'+
-        '<div class="mf" id="m2-f-'+i+'">'+RN[p.g2]+' <strong>'+fg2+'g</strong> + '+fBg2+'g '+p.b+' · '+fM2kc+'kcal / '+fTKp+'g P</div>'+
-        '<div class="mfl" id="m2-l-'+i+'">'+RN[p.g2]+' <strong>'+lg2+'g</strong> + '+lBg+'g '+p.b+' · '+lMkc+'kcal / '+TLp+'g P</div></div>'+
-      '<div class="ml"><div class="ml-l">Abend (~'+fAbS+'kcal)</div>'+
-        '<div class="mf" id="ab-f-'+i+'"><strong>'+ABEND[i].name+'</strong> · '+abM.kc+'kcal / '+abM.p+'g P / <span style="color:var(--blue)">'+abM.k+'g KH</span></div>'+
+      '<div class="ml"><div class="ml-l">M2 ('+fM2Slot+'kcal)</div>'+
+        '<div class="mf" id="m2-f-'+i+'">'+TK[p.g2].name+' <strong>'+fTkG2+'g</strong> + '+fBg2+'g '+p.b+' · '+fM2Kc+'kcal / '+fPs+'g P</div>'+
+        '<div class="mfl">'+TK[p.g2].name+' <strong>'+lTkG2+'g</strong> + '+lBg2+'g '+p.b+' · '+lM2Kc+'kcal / '+lPs+'g P</div></div>'+
+      '<div class="ml"><div class="ml-l">Abend ('+fAbSlot+'kcal)</div>'+
+        '<div class="mf" id="ab-f-'+i+'"><strong>'+ABEND[i].name+'</strong> · '+abMac.kc+'kcal / '+abMac.p+'g P / <span style="color:var(--blue)">'+abMac.k+'g KH</span></div>'+
         '<div class="mfl">L: Abend-Rotation · ~'+lAbKc+'kcal</div></div>'+
       '<div class="ds">'+
         '<div class="ds-r">F: '+fTot+'/'+fKc+'kcal · '+fPTot+'/'+fP+'g P</div>'+
@@ -390,91 +521,87 @@ function renderWeek(){
         '<div class="ds-b"><div class="ds-f" style="width:'+lPct+'%;background:'+lc+'"></div></div>'+
       '</div></div>';
   }
-  document.getElementById("wgrid").innerHTML=html;
-  // Click-Handler nach DOM-Aufbau
-  for(var i=0;i<PLAN.length;i++){
-    (function(idx){
-      var p=PLAN[idx];
+  document.getElementById("wgrid").innerHTML = html;
+
+  // Click-Handler
+  for(var i = 0; i < PLAN.length; i++) {
+    (function(idx) {
+      var p = PLAN[idx];
       var el;
-      el=document.getElementById("fr-f-"+idx);if(el)el.onclick=function(){oR(p.fr);};
-      el=document.getElementById("fr-l-"+idx);if(el)el.onclick=function(){oR(p.fr);};
-      el=document.getElementById("m1-f-"+idx);if(el)el.onclick=function(){oR(p.g1);};
-      el=document.getElementById("m1-l-"+idx);if(el)el.onclick=function(){oR(p.g1);};
-      el=document.getElementById("sh-"+idx);if(el)el.onclick=function(){oR("shake");};
-      el=document.getElementById("m2-f-"+idx);if(el)el.onclick=function(){oR(p.g2);};
-      el=document.getElementById("m2-l-"+idx);if(el)el.onclick=function(){oR(p.g2);};
-      el=document.getElementById("ab-f-"+idx);if(el)el.onclick=function(){oRAbend(idx);};
+      el=document.getElementById("fr-f-"+idx); if(el) el.onclick=function(){oRFr(p.fr);};
+      el=document.getElementById("sh-"+idx);   if(el) el.onclick=function(){oRFr("shake");};
+      el=document.getElementById("m1-f-"+idx); if(el) el.onclick=function(){oRTK(p.g1);};
+      el=document.getElementById("m2-f-"+idx); if(el) el.onclick=function(){oRTK(p.g2);};
+      el=document.getElementById("ab-f-"+idx); if(el) el.onclick=function(){oRAbend(idx);};
     })(i);
   }
   uSa();
 }
 
-// Popup aufbauen
-function ingTable(key,ing,factor){
-  var f=factor||1;
-  var rows=ing.map(function(x,i){
-    var displayV=Math.round(x.v*f*10)/10;
-    return '<tr><td>'+x.n+'</td><td><input class="ing-inp" type="number" id="ii-'+key+'-'+i+'" value="'+displayV+'" step="0.5" data-base="'+x.v+'" data-factor="'+f+'"><span class="ing-unit">'+x.u+'</span></td></tr>';
+// ============================================================
+// POPUPS
+// ============================================================
+function ingTable(key, ing, factor) {
+  var f = factor || 1;
+  var rows = ing.map(function(x, i) {
+    var dv = Math.round(x.v * f * 10) / 10;
+    return '<tr><td>'+x.n+'</td><td><input class="ing-inp" type="number" id="ii-'+key+'-'+i+'" value="'+dv+'" step="0.5" data-factor="'+f+'"><span class="ing-unit">'+x.u+'</span></td></tr>';
   }).join("");
-  return '<table class="ing-tbl"><thead><tr><th>Zutat</th><th style="text-align:right">Menge (bei '+Math.round(ST.fKc)+'kcal)</th></tr></thead><tbody>'+rows+'</tbody></table>'+
-    '<div style="font-size:.72rem;color:var(--txt2);margin:.5rem 0">Gespeichert wird als Basiswert ('+BASE_KC+'kcal). Skalierung passiert automatisch.</div>'+
-    '<button class="sav-btn" data-key="'+key+'" onclick="saveIng(this.dataset.key)">Speichern als Basis</button><span class="sav-ok" id="sok-'+key+'">✓ gespeichert</span>';
+  return '<table class="ing-tbl"><thead><tr><th>Zutat</th><th style="text-align:right">Menge</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+    '<div style="font-size:.72rem;color:var(--txt2);margin:.5rem 0">Basis 95kg. Änderungen gelten für alle Tage.</div>'+
+    '<button class="sav-btn" data-key="'+key+'" onclick="saveIng(this.dataset.key)">Speichern</button>'+
+    '<span class="sav-ok" id="sok-'+key+'">✓ gespeichert</span>';
 }
-function macBox(m){
+
+function macBox(m) {
   return '<div class="pp-mac">'+
-    '<div class="mb"><div class="mv" id="lv-kc">'+m.kc+'</div><div class="ml2">kcal</div></div>'+
-    '<div class="mb"><div class="mv" id="lv-p">'+m.p+'</div><div class="ml2">Protein</div></div>'+
-    '<div class="mb"><div class="mv" id="lv-f">'+m.f+'</div><div class="ml2">Fett</div></div>'+
-    '<div class="mb"><div class="mv" id="lv-k">'+m.k+'</div><div class="ml2">KH</div></div>'+
+    '<div class="mb"><div class="mv">'+m.kc+'</div><div class="ml2">kcal</div></div>'+
+    '<div class="mb"><div class="mv">'+m.p+'</div><div class="ml2">Protein</div></div>'+
+    '<div class="mb"><div class="mv">'+m.f+'</div><div class="ml2">Fett</div></div>'+
+    '<div class="mb"><div class="mv">'+m.k+'</div><div class="ml2">KH</div></div>'+
   '</div>';
 }
-function stepsHtml(steps){return steps.map(function(s,i){return '<div class="step"><div class="snum">'+(i+1)+'</div><div>'+s+'</div></div>';}).join("");}
-
-function saveIng(key){
-  var ing=null;
-  if(REC[key])ing=REC[key].ing;
-  else if(key.substr(0,2)==="ab")ing=ABEND[parseInt(key.substr(2))].ing;
-  else if(key.substr(0,2)==="sn")ing=SNACK[parseInt(key.substr(2))].ing;
-  if(!ing)return;
-  ing.forEach(function(x,i){
-    var el=document.getElementById("ii-"+key+"-"+i);
-    if(el){
-      var displayVal=parseFloat(el.value)||x.v;
-      var f=parseFloat(el.dataset.factor)||1;
-      x.v=Math.round(displayVal/f*10)/10; // zurück auf Basis skalieren
-    }
-  });
-  saveRec(key,ing);
-  var ok=document.getElementById("sok-"+key);
-  if(ok){ok.style.display="inline";setTimeout(function(){ok.style.display="none";},2000);}
-  renderWeek();renderSnacks();renderAbend();
-  cR();
+function stepsHtml(steps) {
+  return steps.map(function(s,i){return '<div class="step"><div class="snum">'+(i+1)+'</div><div>'+s+'</div></div>';}).join("");
 }
 
-function oR(id){
-  var isTK=ROT.indexOf(id)>=0;
-  var r=REC[id];
-  if(!r){showTKPopup(id);return;}
-  var f=scaleFactor(ST.fKc);
-  var m=mac(r.ing,f);
-  var fp=portG(id,"F"),lp=portG(id,"L");
-  var portBox=isTK?'<div class="port-b">Portionsgröße: Florian = <strong>'+fp+'g</strong> &nbsp;·&nbsp; Laura = <strong>'+lp+'g</strong></div>':"";
-  document.getElementById("pp").innerHTML=
+function saveIng(key) {
+  var ing = null;
+  if(REC[key]) ing = REC[key].ing;
+  else if(key.substr(0,2)==="ab") ing = ABEND[parseInt(key.substr(2))].ing;
+  else if(key.substr(0,2)==="sn") ing = SNACK[parseInt(key.substr(2))].ing;
+  if(!ing) return;
+  ing.forEach(function(x, i) {
+    var el = document.getElementById("ii-"+key+"-"+i);
+    if(el) { var dv=parseFloat(el.value)||x.v; var f=parseFloat(el.dataset.factor)||1; x.v=Math.round(dv/f*10)/10; }
+  });
+  saveRec(key, ing);
+  var ok = document.getElementById("sok-"+key);
+  if(ok){ok.style.display="inline";setTimeout(function(){ok.style.display="none";},2000);}
+  renderWeek(); renderSnacks(); renderAbend(); cR();
+}
+
+function oRFr(id) {
+  var r = REC[id]; if(!r) return;
+  var wf = ST.fKg / 95;
+  var m = mac(r.ing, wf);
+  document.getElementById("pp").innerHTML =
     '<button class="cls-btn" onclick="cR()">Schließen</button>'+
     '<div class="pp-ttl">'+r.name+'</div>'+
-    '<div class="pp-sub">Mengen bei '+ST.fKc+'kcal · Basis ändern → für alle Tage gespeichert</div>'+
-    portBox+macBox(m)+
-    '<div class="pp-sec">Zutaten (editierbar)</div>'+
-    ingTable(id,r.ing,f)+
+    '<div class="pp-sub">Mengen bei '+ST.fKg+'kg · Basis 95kg · gilt für alle Tage</div>'+
+    macBox(m)+
+    '<div class="pp-sec">Zutaten (editierbar)</div>'+ingTable(id, r.ing, wf)+
     '<div class="pp-sec">Zubereitung</div>'+stepsHtml(r.steps)+
     '<div class="tip-b">Tipp: '+r.tip+'</div>';
   document.getElementById("ov").classList.add("open");
 }
 
-function showTKPopup(id){
-  var fp=portG(id,"F"),lp=portG(id,"L");
-  var names={dahl:"Hähnchen-Kokos-Dahl",bolognese:"Turkey-Bolognese",gulasch:"Ofengulasch",curryhuhn:"Curryhuhn",stroganoff:"Stroganoff",butterchicken:"Butter Chicken",tikka:"Tikka Masala"};
-  var ings={
+function oRTK(id) {
+  var tk = TK[id]; if(!tk) return;
+  var fp = portGKoch(id), lp = Math.round(fp*0.75);
+  var fPs = pSlot(ST.fKg), lPs = pSlot(ST.lKg);
+  var fTkG = tkPortion(id, fPs), lTkG = Math.round(tkPortion(id, lPs)*0.75);
+  var TKING = {
     dahl:["2000g Hähnchenbrust","600g rote Linsen","2 Dosen Kokosmilch light","400g Baby-Spinat","4 Dosen stückige Tomaten","3 Zwiebeln","6 Knoblauchzehen","30g Ingwer","1L Hühnerbrühe","3 TL Kurkuma, Kreuzkümmel, Garam Masala","Salz, Pfeffer, Chili"],
     bolognese:["2000g Putenhack","400g rote Linsen","3 Dosen stückige Tomaten","80g Tomatenmark","400g Karotten","3 Zwiebeln","6 Knoblauchzehen","500ml Hühnerbrühe","Oregano, Chiliflocken, Salz, Pfeffer"],
     gulasch:["2500g Rindergulasch","1250g Zwiebeln","5 EL Paprikapulver edelsüß","5 EL Tomatenmark","2000g Rinderfond","7 EL Rotweinessig","Salz, Pfeffer, Petersilie"],
@@ -483,116 +610,100 @@ function showTKPopup(id){
     butterchicken:["2500g Hähnchenbrust","5 Zwiebeln","1250g passierte Tomaten","500g Griech. Joghurt 2%","25g Butter","5 TL Garam Masala, Chili, Kreuzkümmel"],
     tikka:["2500g Hähnchenbrust","250g Joghurt (Marinade)","5 Zwiebeln","125g Ghee","1500g Dosentomaten","250ml Fond","125g Cremefine 7%"]
   };
-  var steps={
+  var TKSTEPS = {
     dahl:["Zwiebeln, Knoblauch, Ingwer 5 Min andünsten.","Gewürze 2 Min anrösten.","Hähnchen würfeln, anbraten.","Tomaten, Kokosmilch, Brühe, Linsen. 20 Min köcheln.","Spinat 2 Min. Portionieren + einfrieren."],
-    bolognese:["Zwiebeln, Knoblauch, Karotten 5 Min anbraten.","Tomatenmark rösten. Putenhack krümelig braten.","Tomaten, Brühe, Linsen, Gewürze. 25 Min köcheln.","Portionieren + einfrieren."],
+    bolognese:["Zwiebeln, Knoblauch, Karotten 5 Min anbraten.","Tomatenmark rösten. Putenhack braten.","Tomaten, Brühe, Linsen, Gewürze. 25 Min köcheln.","Portionieren + einfrieren."],
     gulasch:["Ofen 180°C vorheizen.","Zwiebeln in Olivenöl 15 Min goldbraun.","Tomatenmark + Paprika anrösten. Fond + Essig ablöschen.","Fleisch rein. 2h 180°C, dann 1h 160°C.","Portionieren + einfrieren."],
     curryhuhn:["Tomatenmark + Currypaste anbraten.","Mit Kokos-Sahne ablöschen.","Hähnchen + Gemüse + Gewürze. 20 Min.","Skyr + Walnüsse einrühren."],
     stroganoff:["Fleisch scharf anbraten, herausnehmen.","Zwiebeln glasig. Champignons goldbraun.","Mehl + Fond + Worcestershire + Senf.","Joghurt + Fleisch rein, kurz erwärmen."],
-    butterchicken:["Zwiebel, Knoblauch, Ingwer andünsten.","Butter + Gewürze 3 Min dünsten.","Tomaten 3 Min aufkochen.","Hähnchen 15 Min garen. Joghurt einrühren."],
+    butterchicken:["Zwiebel, Knoblauch, Ingwer andünsten.","Butter + Gewürze 3 Min.","Tomaten 3 Min aufkochen.","Hähnchen 15 Min. Joghurt einrühren."],
     tikka:["Abends: Marinade + Hähnchen einlegen.","Hähnchen anbraten. Beiseite.","Zwiebeln in Ghee. Gewürze + Tomaten + Fond 10 Min.","Hähnchen + Cremefine 10 Min. Portionieren."]
   };
-  var tips={dahl:"Kocht sich nach Schritt 4 von selbst.",bolognese:"38g Protein — höchstes im Set.",gulasch:"Ofen macht die Arbeit. Fleisch wird gabelzart.",curryhuhn:"Walnüsse statt Cashews.",stroganoff:"Joghurt statt Creme Fine.",butterchicken:"Butter halbiert, Joghurt statt Sahne.",tikka:"Marinade über Nacht = deutlich mehr Geschmack."};
-  var kcs={dahl:290,bolognese:310,gulasch:245,curryhuhn:300,stroganoff:219,butterchicken:270,tikka:260};
-  var ps={dahl:"35g",bolognese:"38g",gulasch:"30g",curryhuhn:"30g",stroganoff:"32g",butterchicken:"27g",tikka:"29g"};
-  var fs={dahl:"8g",bolognese:"7g",gulasch:"10g",curryhuhn:"12g",stroganoff:"6g",butterchicken:"11g",tikka:"9g"};
-  var ks={dahl:"18g",bolognese:"16g",gulasch:"7g",curryhuhn:"10g",stroganoff:"4g",butterchicken:"9g",tikka:"8g"};
-  var ingHtml='<div class="ing-grid">'+ings[id].map(function(x){return '<div class="ing-i">'+x+'</div>';}).join("")+'</div>';
-  document.getElementById("pp").innerHTML=
+  var TKTIPS = {dahl:"Kocht sich nach Schritt 4 von selbst.",bolognese:"38g Protein — höchstes im Set.",gulasch:"Ofen macht die Arbeit.",curryhuhn:"Walnüsse statt Cashews.",stroganoff:"Joghurt statt Creme Fine.",butterchicken:"Joghurt statt Sahne.",tikka:"Marinade über Nacht."};
+  var ingHtml = '<div class="ing-grid">'+TKING[id].map(function(x){return '<div class="ing-i">'+x+'</div>';}).join("")+'</div>';
+  document.getElementById("pp").innerHTML =
     '<button class="cls-btn" onclick="cR()">Schließen</button>'+
-    '<div class="pp-ttl">'+names[id]+'</div>'+
+    '<div class="pp-ttl">'+tk.name+'</div>'+
     '<div class="pp-sub">20 Portionen · TK-Gericht</div>'+
-    '<div class="port-b">Portionsgröße Dose: Florian = <strong>'+fp+'g</strong> &nbsp;·&nbsp; Laura = <strong>'+lp+'g</strong></div>'+
-    '<div class="pp-mac">'+
-      '<div class="mb"><div class="mv">'+kcs[id]+'</div><div class="ml2">kcal</div></div>'+
-      '<div class="mb"><div class="mv">'+ps[id]+'</div><div class="ml2">Protein</div></div>'+
-      '<div class="mb"><div class="mv">'+fs[id]+'</div><div class="ml2">Fett</div></div>'+
-      '<div class="mb"><div class="mv">'+ks[id]+'</div><div class="ml2">KH</div></div>'+
-    '</div>'+
+    '<div class="port-b">Kochplan-Dose: <strong>'+fp+'g</strong> · Florian isst: <strong>'+fTkG+'g</strong> ('+fPs+'g P Ziel) · Laura: <strong>'+lTkG+'g</strong></div>'+
     '<div class="pp-sec">Zutaten</div>'+ingHtml+
-    '<div class="pp-sec">Zubereitung</div>'+stepsHtml(steps[id])+
-    '<div class="tip-b">Tipp: '+tips[id]+'</div>';
+    '<div class="pp-sec">Zubereitung</div>'+stepsHtml(TKSTEPS[id])+
+    '<div class="tip-b">Tipp: '+TKTIPS[id]+'</div>';
   document.getElementById("ov").classList.add("open");
 }
 
-function oRAbend(idx){
-  var s=ABEND[idx],key="ab"+idx;
-  var f=scaleFactor(ST.fKc);
-  var m=mac(s.ing,f);
-  document.getElementById("pp").innerHTML=
+function oRAbend(idx) {
+  var s = ABEND[idx], key = "ab"+idx;
+  var wf = ST.fKg / 95;
+  var m = mac(s.ing, wf);
+  document.getElementById("pp").innerHTML =
     '<button class="cls-btn" onclick="cR()">Schließen</button>'+
     '<div class="pp-ttl">'+s.tag+': '+s.name+'</div>'+
-    '<div class="pp-sub">Florian Abend · Mengen bei '+ST.fKc+'kcal</div>'+
+    '<div class="pp-sub">Florian Abend · Mengen bei '+ST.fKg+'kg</div>'+
     '<div class="pp-mac">'+
       '<div class="mb"><div class="mv">'+m.kc+'</div><div class="ml2">kcal</div></div>'+
       '<div class="mb"><div class="mv">'+m.p+'</div><div class="ml2">Protein</div></div>'+
       '<div class="mb"><div class="mv">'+m.f+'</div><div class="ml2">Fett</div></div>'+
       '<div class="mb"><div class="mv" style="color:var(--blue)">'+m.k+'</div><div class="ml2">KH ✓</div></div>'+
     '</div>'+
-    ingTable(key,s.ing,f)+
+    ingTable(key, s.ing, wf)+
     '<div class="tip-b">Tipp: '+s.tip+'</div>';
   document.getElementById("ov").classList.add("open");
 }
 
-function oRSnack(idx){
-  var s=SNACK[idx],key="sn"+idx;
-  var f=scaleFactor(ST.lKc);
-  var m=mac(s.ing,f);
-  document.getElementById("pp").innerHTML=
+function oRSnack(idx) {
+  var s = SNACK[idx], key = "sn"+idx;
+  var lf = ST.lKg / 62;
+  var m = mac(s.ing, lf);
+  document.getElementById("pp").innerHTML =
     '<button class="cls-btn" onclick="cR()">Schließen</button>'+
     '<div class="pp-ttl">'+s.name+'</div>'+
-    '<div class="pp-sub">Laura Snack · Mengen bei '+ST.lKc+'kcal</div>'+
-    '<div class="pp-mac">'+
-      '<div class="mb"><div class="mv">'+m.kc+'</div><div class="ml2">kcal</div></div>'+
-      '<div class="mb"><div class="mv">'+m.p+'</div><div class="ml2">Protein</div></div>'+
-      '<div class="mb"><div class="mv">'+m.f+'</div><div class="ml2">Fett</div></div>'+
-      '<div class="mb"><div class="mv">'+m.k+'</div><div class="ml2">KH</div></div>'+
-    '</div>'+
-    ingTable(key,s.ing,f)+
+    '<div class="pp-sub">Laura Snack · Mengen bei '+ST.lKg+'kg</div>'+
+    macBox(m)+ingTable(key, s.ing, lf)+
     '<div class="tip-b">Tipp: '+s.tip+'</div>';
   document.getElementById("ov").classList.add("open");
 }
 
-
-function renderSnacks(){
-  var lS=Math.round(ST.lKc/5),html="";
-  var lf=scaleFactor(ST.lKc);
-  SNACK.forEach(function(s,i){
-    var m=mac(s.ing,lf),d=lS-m.kc,h=Math.abs(d)<30?"passt ✓":d>0?"+"+d+"kcal → größer":d+"kcal → kleiner";
-    var ingStr=s.ing.map(function(x){return Math.round(x.v*lf*10)/10+(x.u!=="Stk"&&x.u!=="Schb."?x.u:" Stk")+" "+x.n;}).join(" · ");
-    html+='<div class="sn-c" onclick="oRSnack('+i+')">'+
+function renderSnacks() {
+  var lf = ST.lKg / 62, html = "";
+  SNACK.forEach(function(s, i) {
+    var m = mac(s.ing, lf);
+    var ingStr = s.ing.map(function(x){return Math.round(x.v*lf*10)/10+(x.u!=="Stk"&&x.u!=="Schb."?x.u:" Stk")+" "+x.n;}).join(" · ");
+    html += '<div class="sn-c" onclick="oRSnack('+i+')">'+
       '<div class="sn-n">'+s.name+' <span class="sn-tg" style="background:'+s.tc+';color:'+s.tt+'">'+s.tag+'</span></div>'+
       '<div class="sn-m">'+ingStr+'</div>'+
       '<div class="sn-mk"><span class="sn-mb">'+m.kc+' kcal</span><span class="sn-mb">'+m.p+'g P</span><span class="sn-mb">'+m.f+'g F</span><span class="sn-mb sn-kh">'+m.k+'g KH</span></div>'+
-      '<div class="sn-h">Slot ~'+lS+'kcal: '+h+' · Anklicken zum Bearbeiten</div>'+
+      '<div class="sn-h">Anklicken zum Bearbeiten</div>'+
     '</div>';
   });
-  document.getElementById("sgrid").innerHTML=html;
+  document.getElementById("sgrid").innerHTML = html;
 }
 
-function renderAbend(){
-  var html="";
-  var ff=scaleFactor(ST.fKc);
-  ABEND.forEach(function(s,i){
-    var m=mac(s.ing,ff);
-    var ingStr=s.ing.map(function(x){return Math.round(x.v*ff*10)/10+(x.u!=="Stk"&&x.u!=="Schb."?x.u:" Stk")+" "+x.n;}).join(" · ");
-    html+='<div class="sn-c" onclick="oRAbend('+i+')">'+
+function renderAbend() {
+  var wf = ST.fKg / 95, html = "";
+  ABEND.forEach(function(s, i) {
+    var m = mac(s.ing, wf);
+    var ingStr = s.ing.map(function(x){return Math.round(x.v*wf*10)/10+(x.u!=="Stk"&&x.u!=="Schb."?x.u:" Stk")+" "+x.n;}).join(" · ");
+    html += '<div class="sn-c" onclick="oRAbend('+i+')">'+
       '<div class="sn-n" style="color:var(--fc)"><strong>'+s.tag+':</strong> '+s.name+'</div>'+
       '<div class="sn-m">'+ingStr+'</div>'+
       '<div class="sn-mk"><span class="sn-mb">'+m.kc+' kcal</span><span class="sn-mb">'+m.p+'g P</span><span class="sn-mb">'+m.f+'g F</span><span class="sn-mb sn-kh">'+m.k+'g KH ✓</span></div>'+
-      '<div class="sn-h">Anklicken zum Bearbeiten der Mengen</div>'+
+      '<div class="sn-h">Anklicken zum Bearbeiten</div>'+
     '</div>';
   });
-  document.getElementById("fgrid").innerHTML=html;
+  document.getElementById("fgrid").innerHTML = html;
 }
 
 function cR(){document.getElementById("ov").classList.remove("open");}
 function cib(e){if(e.target===document.getElementById("ov"))cR();}
 
 function gK(w){if(w<=4)return null;return ROT[(w-5)%7];}
-function renderKal(){
-  var tb=document.getElementById("kbody"),rows="";
-  var b={};ROT.forEach(function(g){b[g]=20;});
+var RN = {};
+ROT.forEach(function(id){RN[id]=TK[id].name;});
+
+function renderKal() {
+  var tb = document.getElementById("kbody"), rows = "";
+  var b = {}; ROT.forEach(function(g){b[g]=20;});
   for(var w=1;w<=20;w++){
     ROT.forEach(function(g){b[g]-=4;});
     var g=gK(w),dish,port,rc="";
@@ -601,20 +712,24 @@ function renderKal(){
     if(w===ST.week)rc="cur";
     rows+='<tr class="'+rc+'"><td style="font-size:.78rem;color:#6B6960">Woche '+w+'</td><td>'+dish+'</td><td style="font-size:.78rem;color:#6B6960">'+port+'</td></tr>';
   }
-  tb.innerHTML=rows;
+  tb.innerHTML = rows;
 }
+
 function uSa(){
   var e1=document.getElementById("sa-lbl"),e2=document.getElementById("sa-dish");
-  if(!e1)return;var g=gK(ST.week);
+  if(!e1)return;
+  var g=gK(ST.week);
   e1.textContent=g?"Woche "+ST.week+" — heute kochen:":"Woche "+ST.week+" — Aufbau";
   e2.textContent=g?RN[g]+" · 20 Port.":"→ Kochplan Tab";
 }
+
 function cw(d){
   ST.week=Math.max(1,Math.min(20,ST.week+d));
   document.getElementById("wlbl").textContent="Woche "+ST.week;
   var w2=document.getElementById("wlbl2");if(w2)w2.textContent="Woche "+ST.week;
   renderWeek();renderKal();
 }
+
 function upd(){
   ST.fKg=parseInt(document.getElementById("fkg").value);
   ST.fKc=parseInt(document.getElementById("fkc").value);
@@ -626,6 +741,7 @@ function upd(){
   document.getElementById("lkc-v").textContent=ST.lKc;
   renderInfo();renderWeek();renderSnacks();renderAbend();renderKal();
 }
+
 function sv(id,btn){
   document.querySelectorAll(".view").forEach(function(v){v.classList.remove("active");});
   document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("active");});
