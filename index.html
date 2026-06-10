@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Meal Prep Plan — Florian &amp; Laura</title>
+<title>Meal Prep Plan — Florian & Laura</title>
 <style>
 :root {
   --bg: #F7F6F2;
@@ -21,21 +21,28 @@
   --amber: #92600A;
   --amber-bg: #FDF3E3;
   --red: #B02020;
+  --red-bg: #FCEAEA;
   --cook: #1655A0;
   --cook-bg: #E6F0FB;
   --f-color: #1A5FA8;
   --l-color: #8B4A00;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --mono: 'SF Mono', 'Fira Code', monospace;
   --r: 8px;
   --r2: 12px;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 14px; }
 body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.5; }
+
 .app { max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
+
+/* Header */
 .header { margin-bottom: 1.5rem; }
-.header h1 { font-size: 1.25rem; font-weight: 600; }
+.header h1 { font-size: 1.25rem; font-weight: 600; color: var(--text); }
 .header p { font-size: 0.85rem; color: var(--text2); margin-top: 2px; }
+
+/* Settings */
 .settings { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
 .settings-title { font-size: 0.7rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.875rem; }
 .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
@@ -48,76 +55,114 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 .slider-row input[type=range] { flex: 1; accent-color: var(--blue); }
 .slider-val { font-size: 0.8rem; font-weight: 600; min-width: 55px; color: var(--text); }
 .person-info { font-size: 0.72rem; color: var(--text2); margin-top: 0.5rem; padding: 0.4rem 0.6rem; background: var(--bg); border-radius: 6px; line-height: 1.9; }
-.tabs { display: flex; gap: 4px; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
-.tab { padding: 0.5rem 0.875rem; font-size: 0.8rem; color: var(--text2); cursor: pointer; background: transparent; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: var(--font); }
+
+/* Tabs */
+.tabs { display: flex; gap: 4px; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); padding-bottom: 0; }
+.tab { padding: 0.5rem 0.875rem; font-size: 0.8rem; color: var(--text2); cursor: pointer; background: transparent; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: var(--font); transition: color 0.15s; }
 .tab:hover { color: var(--text); }
 .tab.active { color: var(--blue); font-weight: 500; border-bottom-color: var(--blue); }
 .view { display: none; }
 .view.active { display: block; }
+
+/* Week nav */
 .week-nav { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
 .week-nav button { padding: 0.375rem 0.875rem; font-size: 0.8rem; border: 1px solid var(--border2); border-radius: 6px; background: var(--surface); color: var(--text); cursor: pointer; font-family: var(--font); }
 .week-nav button:hover { background: var(--surface2); }
 .week-label { font-size: 0.9rem; font-weight: 500; min-width: 70px; text-align: center; }
+
+/* Legend */
 .legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
 .leg-item { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--text2); }
 .leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* Week grid */
 .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
-.day-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); padding: 0.625rem; }
+.day-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); padding: 0.625rem; overflow: hidden; }
 .day-card.tr { border-top: 3px solid #1A7A4A; }
 .day-card.re { border-top: 3px solid var(--border2); }
 .day-card.ko { border-top: 3px solid #1655A0; }
 .day-name { font-size: 0.75rem; font-weight: 600; color: var(--text); margin-bottom: 3px; }
 .badge { display: inline-block; font-size: 0.6rem; font-weight: 600; padding: 1px 5px; border-radius: 4px; margin-bottom: 4px; margin-right: 2px; }
-.badge.tr { background: #E1F5EE; color: #1A7A4A; }
+.badge.tr { background: var(--green-bg); color: var(--green); }
 .badge.re { background: var(--surface2); color: var(--text2); }
-.badge.ko { background: #E6F0FB; color: #1655A02; }
-.beilage { background: #FAEEDA; border-radius: 6px; padding: 4px 7px; margin-bottom: 5px; }
-.beilage-name { font-size: 0.6rem; font-weight: 600; color: #92600A;margin-bottom: 1px; }
-.beilage-detail { font-size: 0.6rem; color: #7A4A0; line-height: 1.7; }
-.cook-box { background: #E6F0FB; border-radius: 6px; padding: 5px 7px; margin: 4px 0; font-size: 0.65rem; color: #1655A0; }
-.cook-box-label { font-size: 0.58rem; font-weight: 600; color: #0D6789; margin-bottom: 1px; }
+.badge.ko { background: var(--cook-bg); color: var(--cook); }
+
+/* Beilage box */
+.beilage { background: var(--amber-bg); border-radius: 6px; padding: 4px 7px; margin-bottom: 5px; }
+.beilage-name { font-size: 0.6rem; font-weight: 600; color: var(--amber); margin-bottom: 1px; }
+.beilage-detail { font-size: 0.6rem; color: #7A4A00; line-height: 1.7; }
+
+/* Cook box */
+.cook-box { background: var(--cook-bg); border-radius: 6px; padding: 5px 7px; margin: 4px 0; font-size: 0.65rem; color: var(--cook); }
+.cook-box-label { font-size: 0.58rem; font-weight: 600; color: #0D3E78; margin-bottom: 1px; }
+
+/* Meal slots */
 .meal { margin-bottom: 4px; padding: 4px 6px; border-radius: 6px; background: var(--surface2); }
 .meal-label { font-size: 0.58rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
 .meal-f { font-size: 0.65rem; color: var(--f-color); cursor: pointer; line-height: 1.5; }
 .meal-l { font-size: 0.65rem; color: var(--l-color); cursor: pointer; line-height: 1.5; }
 .meal-f:hover, .meal-l:hover { text-decoration: underline; }
+.meal-n { font-size: 0.65rem; color: var(--text2); line-height: 1.5; }
+
+/* Day summary */
 .day-summary { margin-top: 5px; padding: 5px 6px; background: var(--surface2); border-radius: 6px; }
 .sum-row { font-size: 0.6rem; color: var(--text2); margin-bottom: 2px; }
 .sum-bar { height: 3px; border-radius: 2px; background: var(--border); margin-bottom: 3px; overflow: hidden; }
 .sum-fill { height: 3px; border-radius: 2px; }
+
+/* Hint */
 .hint { font-size: 0.72rem; color: var(--text2); margin-top: 0.75rem; padding: 0.5rem 0.75rem; background: var(--surface2); border-radius: 6px; }
+
+/* Kochplan */
 .kp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
+.kp-card.aufbau { border-left: 3px solid var(--blue); }
+.kp-card.betrieb { border-left: 3px solid var(--green); }
 .kp-tag { font-size: 0.72rem; color: var(--text2); margin-bottom: 3px; }
 .kp-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
 .kp-body { font-size: 0.8rem; color: var(--text2); line-height: 1.9; }
 .kp-link { color: var(--blue); cursor: pointer; text-decoration: none; }
 .kp-link:hover { text-decoration: underline; }
 .section-label { font-size: 0.7rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin: 1rem 0 0.5rem; }
+
+/* Weight input */
 .w-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 7px 10px; background: var(--surface2); border-radius: 6px; }
 .w-label { font-size: 0.75rem; color: var(--text2); flex: 1; }
 .w-input { width: 90px; font-size: 0.82rem; padding: 4px 8px; border: 1px solid var(--border2); border-radius: 6px; background: var(--surface); color: var(--text); text-align: right; font-family: var(--font); }
 .w-input:focus { outline: 2px solid var(--blue); border-color: transparent; }
 .w-unit { font-size: 0.75rem; color: var(--text2); }
-.w-saved { font-size: 0.65rem; color: #1A7A4A; background: #E8F5EE; padding: 2px 6px; border-radius: 4px; margin-left: 4px; display: none; }
+.w-saved { font-size: 0.65rem; color: var(--green); background: var(--green-bg); padding: 2px 6px; border-radius: 4px; margin-left: 4px; display: none; }
 .w-result { font-size: 0.72rem; color: var(--text2); margin-top: 4px; padding: 2px 10px; }
+
+/* Popup overlay */
 .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.45); z-index: 200; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto; }
 .overlay.open { display: flex; }
 .popup { background: var(--surface); border-radius: var(--r2); border: 1px solid var(--border); width: 100%; max-width: 500px; padding: 1.5rem; margin-top: 1rem; }
 .popup-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 3px; }
 .popup-sub { font-size: 0.75rem; color: var(--text2); margin-bottom: 0.875rem; }
-.popup-macros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 1rem; }
+.popup-macros { display: grid; grid-template-columns: repeat(4,1fr); gap: 6px; margin-bottom: 1rem; }
 .macro-box { background: var(--surface2); border-radius: 6px; padding: 7px; text-align: center; }
 .macro-val { font-size: 1rem; font-weight: 600; }
 .macro-lbl { font-size: 0.65rem; color: var(--text2); }
-.port-box { font-size: 0.8rem; padding: 7px 10px; background: #E8F5EE; border-radius: 6px; color: #1A7A4A; margin-bottom: 0.875rem; }
+.port-box { font-size: 0.8rem; padding: 7px 10px; background: var(--green-bg); border-radius: 6px; color: var(--green); margin-bottom: 0.875rem; }
 .popup-section { font-size: 0.68rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin: 0.875rem 0 0.4rem; }
 .ing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 0.5rem; }
 .ing-item { font-size: 0.75rem; padding: 3px 7px; background: var(--surface2); border-radius: 5px; }
 .step { display: flex; gap: 8px; margin-bottom: 6px; font-size: 0.8rem; line-height: 1.5; }
 .step-num { width: 20px; height: 20px; border-radius: 50%; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 600; flex-shrink: 0; margin-top: 1px; color: var(--text2); }
+.tip-box { font-size: 0.75rem; padding: 8px 10px; background: var(--surface2); border-radius: 6px; color: var(--text2); margin-top: 0.75rem; }
 .close-btn { float: right; cursor: pointer; font-size: 0.8rem; color: var(--text2); padding: 3px 10px; border: 1px solid var(--border2); border-radius: 5px; background: var(--surface); font-family: var(--font); }
 .close-btn:hover { background: var(--surface2); }
-.tip-box { font-size: 0.75rem; padding: 8px 10px; background: var(--surface2); border-radius: 6px; color: var(--text2); margin-top: 0.75rem; }
+
+/* Kalender */
+.kal-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.kal-table th { text-align: left; font-size: 0.7rem; font-weight: 600; color: var(--text3); padding: 7px 10px; border-bottom: 1px solid var(--border); }
+.kal-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); }
+.kal-table tr.cur td { background: var(--blue-bg); }
+.tag-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
+.tag-aufbau { background: var(--surface2); color: var(--text2); }
+.tag-cook { background: var(--green-bg); color: var(--green); }
+
+/* Snacks */
 .snack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
 .snack-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); padding: 0.875rem; }
 .snack-name { font-size: 0.85rem; font-weight: 600; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
@@ -125,13 +170,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 .snack-menge { font-size: 0.78rem; color: var(--text2); line-height: 1.7; margin-bottom: 6px; }
 .snack-macros { display: flex; gap: 5px; flex-wrap: wrap; }
 .snack-macro { font-size: 0.68rem; padding: 2px 6px; border-radius: 4px; background: var(--surface2); color: var(--text2); }
-.kal-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
-.kal-table th { text-align: left; font-size: 0.7rem; font-weight: 600; color: var(--text3); padding: 7px 10px; border-bottom: 1px solid var(--border); }
-.kal-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); }
-.kal-table tr.cur td { background: #EBF2FB; }
-.tag-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
-.tag-aufbau { background: var(--surface2); color: var(--text2); }
-.tag-cook { background: #E8F5EE; color: #1A7A4A; }
+.snack-hint { font-size: 0.68rem; color: var(--text2); margin-top: 5px; }
 </style>
 </head>
 <body>
@@ -142,8 +181,9 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   <p>Florian &amp; Laura — Muskelaufbau &amp; Recomposition</p>
 </div>
 
+<!-- Settings -->
 <div class="settings">
-  <div class="settings-title">K&ouml;roerpergewicht &amp; Kalorienbedarf &#8211; Protein wird automatisch berechnet (2g/kg)</div>
+  <div class="settings-title">Körpergewicht &amp; Kalorien — Protein wird automatisch berechnet (2g/kg)</div>
   <div class="settings-grid">
     <div class="person-card">
       <div class="person-name f">Florian</div>
@@ -160,6 +200,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   </div>
 </div>
 
+<!-- Tabs -->
 <div class="tabs">
   <button class="tab active" onclick="sv('tableau',this)">Wochentableau</button>
   <button class="tab" onclick="sv('kochplan',this)">Kochplan Laura</button>
@@ -167,6 +208,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   <button class="tab" onclick="sv('snacks',this)">Snacks Laura</button>
 </div>
 
+<!-- Tableau -->
 <div id="tableau" class="view active">
   <div class="legend">
     <div class="leg-item"><div class="leg-dot" style="background:#1A7A4A"></div>Trainingstag</div>
@@ -174,7 +216,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     <div class="leg-item"><div class="leg-dot" style="background:#1655A0"></div>Kochtag</div>
     <div class="leg-item"><div class="leg-dot" style="background:#1A5FA8"></div>F = Florian</div>
     <div class="leg-item"><div class="leg-dot" style="background:#8B4A00"></div>L = Laura</div>
-    <div class="leg-item">Gerichte anklicken → Rezept</div>
+    <div class="leg-item" style="font-size:0.7rem">Gerichte anklicken → Rezept</div>
   </div>
   <div class="week-nav">
     <button onclick="cw(-1)">← zurück</button>
@@ -182,79 +224,326 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     <button onclick="cw(1)">weiter →</button>
   </div>
   <div class="week-grid" id="wgrid"></div>
-  <div class="hint">F: OJ jeden Tag &nbsp;&middot;&nbsp; L: OJ nur Di/Do/Fr/So &nbsp;&middot;&nbsp; Reis/Nudeln alle 2 Tage frisch &nbsp;&middot;&nbsp; Kartoffeln 1 kg Pellkartoffeln</div>
+  <div class="hint">F: OJ jeden Tag &nbsp;·&nbsp; L: OJ nur Di/Do/Fr/So &nbsp;·&nbsp; Reis/Nudeln alle 2 Tage frisch &nbsp;·&nbsp; Kartoffeln 1 kg als Pellkartoffeln</div>
 </div>
 
+<!-- Kochplan -->
 <div id="kochplan" class="view">
-  <p style="font-size:0.82rem;color:#6B6960;margin-bottom:1rem">Gesamtgewicht einmalig eintragen → wird gespeichert → Portionsgrößen erscheinen im Tableau und in jedem Rezept.</p>
+  <p style="font-size:0.82rem;color:#6B6960;margin-bottom:1rem">Gesamtgewicht einmalig eintragen → wird dauerhaft gespeichert → Portionsgrössen erscheinen im Tableau und in jedem Rezept.</p>
   <div class="section-label">Wochenende 1</div>
-  <div class="kp-card" style="border-left:3px solid #1A5FA8">
-    <div class="kp-tag">Samstag — ca. 2,Sh &#8404; parallel kochen</div>
-    <div class="kp-title">H&auml;nchen-Kokos-Dahl + Turkey-Bolognese</div>
-    <div class="kp-body">Dahl: 20 Port. &middot; 45 Min &middot; <span class="kp-link" onclick="oR('dahl')">&#8594; Rezept</span><br>Bolognese: 20 Port. &middot; 50 Min &middot; <span class="kp-link" onclick="oR('bolognese')">&#8594; Rezept</span></div>
-    <div class="w-row"><span class="w-label">Dahl &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-dahl" placeholder="ca. 4800"><span class="w-unit">g</span><span class="w-saved" id="ws-dahl">&#10003; gespeichert</span></div>
-    <div class="w-saved w-result" id="wr-dahl"></div>
-    <div class="w-row"><span class="w-label">Bolognese &#8212; Gesamtgewicht fertig gekocht</span><input class="w-knput" type="number" id="w-olognese" placeholder="ca. 3600"><span class="w-saved" id="ws-bolognese">&#10003; gespeichert</span></div>
+  <div class="kp-card aufbau">
+    <div class="kp-tag">Samstag — ca. 2,5h (parallel kochen)</div>
+    <div class="kp-title">Hähnchen-Kokos-Dahl + Turkey-Bolognese</div>
+    <div class="kp-body">Dahl: 20 Port. · 45 Min aktiv · <span class="kp-link" onclick="oR('dahl')">→ Rezept</span><br>Bolognese: 20 Port. · 50 Min aktiv · <span class="kp-link" onclick="oR('bolognese')">→ Rezept</span></div>
+    <div class="w-row"><span class="w-label">Dahl — Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-dahl" placeholder="z.B. 4800"><span class="w-unit">g</span><span class="w-saved" id="ws-dahl">✓ gespeichert</span></div>
+    <div class="w-result" id="wr-dahl"></div>
+    <div class="w-row"><span class="w-label">Bolognese — Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-bolognese" placeholder="z.B. 3600"><span class="w-unit">g</span><span class="w-saved" id="ws-bolognese">✓ gespeichert</span></div>
     <div class="w-result" id="wr-bolognese"></div>
   </div>
-  <div class="kp-card" style="border-left:3px solid #1A5FA8">
-    <div class="kp-tag">Sonntag &#8212; ca. 3h</div>
+  <div class="kp-card aufbau">
+    <div class="kp-tag">Sonntag — ca. 3h (Gulasch in Ofen, Curryhuhn parallel)</div>
     <div class="kp-title">Ofengulasch + Curryhuhn</div>
-    <div class="kp-body">Gulasch: 20 Port. &middot; 30 Min + 2,Sh Ofen &middot; <span class="kp-link" onclick="oR('gulasch')">&#8594; Rezept</span><br>Curryhuhn: 20 Port. &middot; 50 Min &middot; <span class="kp-link" onclick="oR('curryhuhn')">&#8594; Rezept</span></div>
-    <div class="w-row"><span class="w-klabel">Gulasch &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-olasch" placeholder="ca. 4000"><span class="w-unit">g</span><span class="w-saved" id="ws-gulasch">&#10003; gespeichert</span></div>
-    <div class="w-saved w-result" id="wr-gulasch"></div>
-    <div class="w-row"><span class="w-label">Curryhuhn &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-ourryhuhn" placeholder="ca. 2600"><span class="w-unit">g</span><span class="w-saved" id="ws-curryhuhn">&#10003; gespeichert</span></div>
+    <div class="kp-body">Gulasch: 20 Port. · 30 Min aktiv + 2,5h Ofen · <span class="kp-link" onclick="oR('gulasch')">→ Rezept</span><br>Curryhuhn: 20 Port. · 50 Min aktiv · <span class="kp-link" onclick="oR('curryhuhn')">→ Rezept</span></div>
+    <div class="w-row"><span class="w-label">Gulasch — Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-gulasch" placeholder="z.B. 4000"><span class="w-unit">g</span><span class="w-saved" id="ws-gulasch">✓ gespeichert</span></div>
+    <div class="w-result" id="wr-gulasch"></div>
+    <div class="w-row"><span class="w-label">Curryhuhn — Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-curryhuhn" placeholder="z.B. 2600"><span class="w-unit">g</span><span class="w-saved" id="ws-curryhuhn">✓ gespeichert</span></div>
     <div class="w-result" id="wr-curryhuhn"></div>
   </div>
   <div class="section-label">Wochenende 2</div>
-  <div class="kp-card" style="border-left:3px solid #1A5FA8">
-    <div class="kp-tag">Samstag &#8212; ca. 2h</div>
+  <div class="kp-card aufbau">
+    <div class="kp-tag">Samstag — ca. 2h (parallel)</div>
     <div class="kp-title">Stroganoff + Butter Chicken</div>
-    <div class="kp-body">Stroganoff: 20 Port. &middot; 35 Min &middot; <span class="kp-link" onclick="oR('stroganoff')">&#8594; Rezept</span><br>Butter Chicken: 20 Port. &middot; 45 Min &middot; <span class="kp-link" onclick="oR('butterchicken')">&#8594; Rezept</span></div>
-    <div class="w-row"><span class="w-label">Stroganoff &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-stroganoff" placeholder="ca. 2900"><span class="w-unit">g</span><span class="w-saved" id="ws-stroganoff">&#10003; gespeichert</span></div>
-    <div class="w-result" id="tr-stroganoff"></div>
-    <div class="w-row"><span class="w-label">Butter Chicken &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-butterchicken" placeholder="ca. 3200"><span class="w-saved" id="ws-butterchicken">&#10003; gespeichert</span></div>
-    <div class="w-saved w-result" id="wr-butterchicken"></div>
+    <div class="kp-body">Stroganoff: 20 Port. · 35 Min · <span class="kp-link" onclick="oR('stroganoff')">→ Rezept</span><br>Butter Chicken: 20 Port. · 45 Min · <span class="kp-link" onclick="oR('butterchicken')">→ Rezept</span></div>
+    <div class="w-row"><span class="w-label">Stroganoff — Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-stroganoff" placeholder="z.B. 2900"><span class="w-unit">g</span><span class="w-saved" id="ws-stroganoff">✓ gespeichert</span></div>
+    <div class="w-result" id="wr-stroganoff"></div>
+    <div class="w-row"><span class="w-label">Butter Chicken — Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-butterchicken" placeholder="z.B. 3200"><span class="w-unit">g</span><span class="w-saved" id="ws-butterchicken">✓ gespeichert</span></div>
+    <div class="w-result" id="wr-butterchicken"></div>
   </div>
-  <div class="kp-card" style="border-left:3px solid #1A5FA8">
-    <div class="kp-tag">Sonntag &#8212; ca. 1h (Marinade Samstag abends ansetzen!)</div>
+  <div class="kp-card aufbau">
+    <div class="kp-tag">Sonntag — ca. 1h (Marinade Samstag abends ansetzen!)</div>
     <div class="kp-title">Chicken Tikka Masala</div>
-    <div class="kp-body">Tikka: 20 Port. &middot; 50 Min &middot; <span class="kp-link" onclick="oR('tikka')">&#8594; Rezept</span><br><b>TK danach: 140 Port., 7 Sorten &#8211; System l&auml;uft</b></div>
-    <div class="w-row"><span class="w-klabel">Tikka &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-tikka" placeholder="ca. 3400"><span class="w-unit">g</span><span class="w-saved" id="ws-tikka">&#10003; gespeichert</span></div>
-    <div class="w-result" id="w-result-tikka"></div>
+    <div class="kp-body">Tikka: 20 Port. · 50 Min · <span class="kp-link" onclick="oR('tikka')">→ Rezept</span><br><strong>TK danach: 140 Portionen, 7 Sorten — System läuft</strong></div>
+    <div class="w-row"><span class="w-label">Tikka — Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-tikka" placeholder="z.B. 3400"><span class="w-unit">g</span><span class="w-saved" id="ws-tikka">✓ gespeichert</span></div>
+    <div class="w-result" id="wr-tikka"></div>
   </div>
-  <div class="section-label">Ab Woche 5 &#8211; Normalbetrieb</div>
-  <div class="kp-card" style="border-left:3px solid #1A7A4A">
-    <div class="kp-tag">Jeden Samstag &#8212; ca. 2h</div>
+  <div class="section-label">Ab Woche 5 — Normalbetrieb</div>
+  <div class="kp-card betrieb">
+    <div class="kp-tag">Jeden Samstag — ca. 2h</div>
     <div class="kp-title">1 Gericht nach Rotation</div>
-    <div class="kp-body">Dahl &#8594; Bolognese &#8594; Gulasch &#8594; Curryhuhn &#8594; Stroganoff &#8594; Butter Chicken &#8594; Tikka &#8594; von vorne<br>Immer 20 Portionen &middot; Jedes Gericht h&auml;lt 5 Wochen</div>
+    <div class="kp-body">Dahl → Bolognese → Gulasch → Curryhuhn → Stroganoff → Butter Chicken → Tikka → von vorne<br>Immer 20 Portionen · Jedes Gericht hält ca. 5 Wochen bei 4 Portionen/Woche Verbrauch</div>
   </div>
 </div>
 
+<!-- Kalender -->
 <div id="kalender" class="view">
   <div class="week-nav">
     <button onclick="cw(-1)">← zurück</button>
     <div class="week-label" id="wlbl2">Woche 1</div>
-    <button onclick="cw(1)">weiter &#8594;</button>
+    <button onclick="cw(1)">weiter →</button>
   </div>
   <table class="kal-table">
-    <thead><tr><th>Woche</th><th>Samstag &#8211; Laura kocht</th><th>Portionen &uuml;brig</th></tr></thead>
+    <thead><tr><th>Woche</th><th>Samstag — Laura kocht</th><th>Portionen übrig vorher</th></tr></thead>
     <tbody id="kbody"></tbody>
   </table>
 </div>
 
+<!-- Snacks -->
 <div id="snacks" class="view">
-  <p style="font-size:0.82rem;color:#6B6960;margin-bottom:1rem">Taglich rotieren &#8211; nie zl weimal hintereinander dasselbe.</p>
+  <p style="font-size:0.82rem;color:#6B6960;margin-bottom:1rem">Täglich rotieren — nie zweimal hintereinander dasselbe. Slot-Ziel passt sich ans Kalorienbudget an.</p>
   <div class="snack-grid" id="sgrid"></div>
 </div>
 
-</div>
+</div><!-- /app -->
 
-<div class="overlay" id="ov" onclick="cib(event)"><div class="popup" id="pp"></div></div>
+<!-- Popup -->
+<div class="overlay" id="ov" onclick="cib(event)">
+  <div class="popup" id="pp"></div>
+</div>
 
 <script>
 var ST={fKg:95,fKc:2900,lKg:62,lKc:1700,week:1};
-var WTSS={dahl:0,bolognese:0,gulasch:0,curryhuhn:0,stroganoff:0,butterchicken:0,tikka:0};
+var WTS={dahl:0,bolognese:0,gulasch:0,curryhuhn:0,stroganoff:0,butterchicken:0,tikka:0};
 var DW={dahl:4800,bolognese:3600,gulasch:4000,curryhuhn:2600,stroganoff:2900,butterchicken:3200,tikka:3400};
 var ROT=["dahl","bolognese","gulasch","curryhuhn","stroganoff","butterchicken","tikka"];
-var RN={dahl:"H\veightschriftnѽ�kos-Dahl",bolognese:"Turkey-Bolognese",gulasch:"Ofengulasch",curryhuhn:"Curryhuhn",stroganoff:"Stroganoff",butterchicken:"Butter Chicken",tikka:"Tikka Masala"};
+var RN={dahl:"Hähnchen-Kokos-Dahl",bolognese:"Turkey-Bolognese",gulasch:"Ofengulasch",curryhuhn:"Curryhuhn",stroganoff:"Stroganoff",butterchicken:"Butter Chicken",tikka:"Tikka Masala"};
+var OJkc=88,OJp=1,SHkc=516,SHp=40,SHf=22,TKkc=295,TKp=33,TKf=9,TLkc=221,TLp=25,TLf=7;
+var BK={Reis:1.30,Nudeln:1.30,Kartoffeln:0.77};
+var PLAN=[
+  {tag:"Montag",cls:"re",b:"Reis",g1:"dahl",g2:"butterchicken",fr:"porridge",lOJ:false},
+  {tag:"Dienstag",cls:"re",b:"Nudeln",g1:"bolognese",g2:"stroganoff",fr:"ruehrei",lOJ:true},
+  {tag:"Mittwoch",cls:"tr",b:"Reis",g1:"curryhuhn",g2:"tikka",fr:"porridge",lOJ:false},
+  {tag:"Donnerstag",cls:"tr",b:"Kartoffeln",g1:"gulasch",g2:"dahl",fr:"ruehrei",lOJ:true},
+  {tag:"Freitag",cls:"tr",b:"Nudeln",g1:"stroganoff",g2:"bolognese",fr:"pfannkuchen",lOJ:true},
+  {tag:"Samstag",cls:"ko",b:"Reis",g1:"tikka",g2:"curryhuhn",fr:"porridge",lOJ:false,kochtag:true},
+  {tag:"Sonntag",cls:"tr",b:"Kartoffeln",g1:"gulasch",g2:"butterchicken",fr:"pfannkuchen",lOJ:true}
+];
+var FF={porridge:{kc:480,p:40,f:14,name:"Porridge"},ruehrei:{kc:420,p:42,f:12,name:"Rührei + Toast"},pfannkuchen:{kc:538,p:54,f:10,name:"Pfannkuchen"}};
+var FL={porridge:{kc:350,p:30,f:7,name:"Porridge"},ruehrei:{kc:240,p:27,f:6,name:"Rührei + Toast"},pfannkuchen:{kc:270,p:27,f:5,name:"Pfannkuchen ½"}};
+
+function portG(id,person){var w=WTS[id]>0?WTS[id]:DW[id];var fp=Math.round(w/20);return person==='F'?fp:Math.round(fp*0.75);}
+
+function updWRes(id,val){
+  var el=document.getElementById('wr-'+id);if(!el)return;
+  var fp=Math.round(val/20),lp=Math.round(fp*0.75);
+  el.innerHTML='Florian: <strong>'+fp+'g</strong> pro Dose &nbsp;·&nbsp; Laura: <strong>'+lp+'g</strong> pro Dose';
+}
+
+function saveW(id){
+  var val=parseInt(document.getElementById('w-'+id).value);
+  if(!val||val<100)return;
+  WTS[id]=val;
+  updWRes(id,val);
+  try{localStorage.setItem('mp-w-'+id,String(val));document.getElementById('ws-'+id).style.display='inline';}catch(e){}
+  renderWeek();
+}
+
+function loadW(){
+  for(var i=0;i<ROT.length;i++){
+    var id=ROT[i];
+    try{
+      var v=localStorage.getItem('mp-w-'+id);
+      if(v){var n=parseInt(v);WTS[id]=n;document.getElementById('w-'+id).value=n;document.getElementById('ws-'+id).style.display='inline';updWRes(id,n);}
+      else{updWRes(id,DW[id]);}
+    }catch(e){updWRes(id,DW[id]);}
+  }
+}
+
+function renderInfo(){
+  var fP=ST.fKg*2,lP=ST.lKg*2;
+  var fS=Math.round(ST.fKc/5),lS=Math.round(ST.lKc/5);
+  var fF=Math.round((ST.fKc-fP*4-ST.fKc*0.38)/9),lF=Math.round((ST.lKc-lP*4-ST.lKc*0.38)/9);
+  document.getElementById('f-info').innerHTML='Protein: <strong>'+fP+'g</strong>/Tag ('+ST.fKg+'kg × 2) &nbsp;·&nbsp; Slot: ~'+fS+'kcal<br>Fett gesamt: ~'+fF+'g/Tag &nbsp;·&nbsp; Omega-3: 30g Walnüsse täglich';
+  document.getElementById('l-info').innerHTML='Protein: <strong>'+lP+'g</strong>/Tag ('+ST.lKg+'kg × 2) &nbsp;·&nbsp; Slot: ~'+lS+'kcal<br>Fett gesamt: ~'+lF+'g/Tag';
+}
+
+function renderWeek(){
+  var fKc=ST.fKc,lKc=ST.lKc,fKg=ST.fKg,lKg=ST.lKg;
+  var fS=Math.round(fKc/5),lS=Math.round(lKc/5);
+  var fP=fKg*2,lP=lKg*2;
+  var html='';
+  for(var i=0;i<PLAN.length;i++){
+    var p=PLAN[i];
+    var ff=FF[p.fr],fl=FL[p.fr];
+    var lOJkc=p.lOJ?OJkc:0,lOJp=p.lOJ?OJp:0;
+    var fFrKc=OJkc+ff.kc,fFrP=OJp+ff.p;
+    var lFrKc=lOJkc+fl.kc,lFrP=lOJp+fl.p;
+    var bkhr=BK[p.b];
+    var fBg=Math.max(50,Math.round((fS-TKkc)/bkhr));
+    var lBg=Math.max(20,Math.round((lS-TLkc)/bkhr));
+    var fBkc=Math.round(fBg*bkhr),lBkc=Math.round(lBg*bkhr);
+    var fMkc=TKkc+fBkc,lMkc=TLkc+lBkc;
+    var verbrF=fFrKc+fMkc+SHkc+fMkc;
+    var fAbKc=Math.max(200,fKc-verbrF);
+    var fQg=Math.max(150,Math.round(fAbKc*0.6/0.8));
+    var fWg=Math.max(0,Math.round((fAbKc-fQg*0.8)/6.5));
+    var fAbP=Math.round(fQg*0.108),fAbKcR=Math.round(fQg*0.8+fWg*6.5);
+    var fAbF=Math.round(fQg*0.004+fWg*0.65);
+    var fTot=fFrKc+fMkc+SHkc+fMkc+fAbKcR;
+    var fPTot=fFrP+TKp+SHp+TKp+fAbP;
+    var fFTot=Math.round(ff.f+SHf+TKf*2+fAbF);
+    var lSnKc=lS,verbrL=lFrKc+lMkc+lSnKc+lMkc;
+    var lAbKc=Math.max(100,lKc-verbrL);
+    var lTot=lFrKc+lMkc+lSnKc+lMkc+lAbKc;
+    var lPTot=lFrP+TLp+15+TLp+18;
+    var lFTot=Math.round(fl.f+TLf*2+10);
+    var fPct=Math.min(110,Math.round(fTot/fKc*100));
+    var lPct=Math.min(110,Math.round(lTot/lKc*100));
+    var fc=fPct>107?'#B02020':fPct>95?'#1A7A4A':'#D08A10';
+    var lc=lPct>107?'#B02020':lPct>95?'#1A7A4A':'#D08A10';
+    var gesamt=(fBg+lBg)*2;
+    var kBox=p.kochtag?'<div class="cook-box"><div class="cook-box-label" id="sa-lbl"></div><div id="sa-dish"></div></div>':'';
+    var lOJstr=p.lOJ?'OJ + ':'';
+    var lOJhint=p.lOJ?'':' <span style="font-size:0.58rem;color:#9B9890">(kein OJ)</span>';
+    var trainB=p.cls==='tr'||p.cls==='ko'?'<span class="badge tr">Training</span>':'<span class="badge re">Ruhe</span>';
+    var kB=p.kochtag?'<span class="badge ko">Kochtag</span>':'';
+    var fg1=portG(p.g1,'F'),lg1=portG(p.g1,'L');
+    var fg2=portG(p.g2,'F'),lg2=portG(p.g2,'L');
+    html+='<div class="day-card '+p.cls+'">'+
+      '<div class="day-name">'+p.tag+'</div>'+trainB+kB+kBox+
+      '<div class="beilage"><div class="beilage-name">'+p.b+' &nbsp;·&nbsp; '+gesamt+'g gesamt</div><div class="beilage-detail">F: 2×'+fBg+'g<br>L: 2×'+lBg+'g</div></div>'+
+      '<div class="meal"><div class="meal-label">Frühstück + OJ</div>'+
+        '<div class="meal-f" onclick="oR(\''+p.fr+'\')">F: OJ + '+ff.name+' &nbsp;'+fFrKc+'kcal</div>'+
+        '<div class="meal-l" onclick="oR(\''+p.fr+'\')">L: '+lOJstr+fl.name+' &nbsp;'+lFrKc+'kcal'+lOJhint+'</div></div>'+
+      '<div class="meal"><div class="meal-label">Mahlzeit 1</div>'+
+        '<div class="meal-f" onclick="oR(\''+p.g1+'\')">F: '+RN[p.g1]+' <strong>'+fg1+'g</strong> + '+fBg+'g '+p.b+'<br>&nbsp;'+fMkc+'kcal / '+TKp+'g P</div>'+
+        '<div class="meal-l" onclick="oR(\''+p.g1+'\')">L: '+RN[p.g1]+' <strong>'+lg1+'g</strong> + '+lBg+'g '+p.b+'<br>&nbsp;'+lMkc+'kcal / '+TLp+'g P</div></div>'+
+      '<div class="meal"><div class="meal-label">Shake / Snack</div>'+
+        '<div class="meal-f">F: Whey 40g + Zerealien 40g + Walnüsse 30g<br>&nbsp;'+SHkc+'kcal / '+SHp+'g P</div>'+
+        '<div class="meal-l">L: Snack-Rotation &nbsp;~'+lSnKc+'kcal</div></div>'+
+      '<div class="meal"><div class="meal-label">Mahlzeit 2</div>'+
+        '<div class="meal-f" onclick="oR(\''+p.g2+'\')">F: '+RN[p.g2]+' <strong>'+fg2+'g</strong> + '+fBg+'g '+p.b+'<br>&nbsp;'+fMkc+'kcal / '+TKp+'g P</div>'+
+        '<div class="meal-l" onclick="oR(\''+p.g2+'\')">L: '+RN[p.g2]+' <strong>'+lg2+'g</strong> + '+lBg+'g '+p.b+'<br>&nbsp;'+lMkc+'kcal / '+TLp+'g P</div></div>'+
+      '<div class="meal"><div class="meal-label">Abend</div>'+
+        '<div class="meal-f">F: Magerquark '+fQg+'g + Walnüsse '+fWg+'g<br>&nbsp;'+fAbKcR+'kcal / '+fAbP+'g P</div>'+
+        '<div class="meal-l">L: Abend-Rotation &nbsp;~'+lAbKc+'kcal</div></div>'+
+      '<div class="day-summary">'+
+        '<div class="sum-row">F: '+fTot+'/'+fKc+'kcal · '+fPTot+'/'+fP+'g P · '+fFTot+'g F</div>'+
+        '<div class="sum-bar"><div class="sum-fill" style="width:'+fPct+'%;background:'+fc+'"></div></div>'+
+        '<div class="sum-row">L: '+lTot+'/'+lKc+'kcal · '+lPTot+'/'+lP+'g P · '+lFTot+'g F</div>'+
+        '<div class="sum-bar"><div class="sum-fill" style="width:'+lPct+'%;background:'+lc+'"></div></div>'+
+      '</div></div>';
+  }
+  document.getElementById('wgrid').innerHTML=html;
+  uSa();
+}
+
+function renderSnacks(){
+  var lS=Math.round(ST.lKc/5);
+  var SN=[
+    {name:"Skyr + Beeren + Granola",menge:"150g Skyr · 80g Beeren · 20g Granola",kc:220,p:18,f:4,k:28,tag:"Tagsüber",tc:"#FDF3E3",tt:"#92600A"},
+    {name:"Reiswaffeln + Erdnussbutter",menge:"3 Reiswaffeln (33g) · 20g Erdnussbutter",kc:200,p:6,f:10,k:22,tag:"Tagsüber",tc:"#FDF3E3",tt:"#92600A"},
+    {name:"Körniger Frischkäse + Gemüse",menge:"150g Frischkäse · 100g Gurke oder Paprika",kc:160,p:16,f:6,k:8,tag:"Abend",tc:"#E8F5EE",tt:"#1A7A4A"},
+    {name:"Hartgekochte Eier",menge:"2 Eier · immer 4–6 auf einmal kochen",kc:140,p:12,f:10,k:0,tag:"Abend",tc:"#E8F5EE",tt:"#1A7A4A"},
+    {name:"Magerquark + Beeren",menge:"200g Magerquark · 80g Beeren",kc:175,p:22,f:1,k:18,tag:"Abend",tc:"#E8F5EE",tt:"#1A7A4A"}
+  ];
+  var html='';
+  for(var i=0;i<SN.length;i++){
+    var s=SN[i];var d=lS-s.kc,h=Math.abs(d)<30?'passt ✓':d>0?'+'+d+'kcal → Portion etwas größer':d+'kcal → Portion etwas kleiner';
+    html+='<div class="snack-card">'+
+      '<div class="snack-name">'+s.name+' <span class="snack-tag" style="background:'+s.tc+';color:'+s.tt+'">'+s.tag+'</span></div>'+
+      '<div class="snack-menge">'+s.menge+'</div>'+
+      '<div class="snack-macros"><span class="snack-macro">'+s.kc+' kcal</span><span class="snack-macro">'+s.p+'g P</span><span class="snack-macro">'+s.f+'g F</span><span class="snack-macro">'+s.k+'g KH</span></div>'+
+      '<div class="snack-hint">Slot ~'+lS+'kcal: '+h+'</div>'+
+    '</div>';
+  }
+  document.getElementById('sgrid').innerHTML=html;
+}
+
+function gK(w){if(w<=4)return null;return ROT[(w-5)%7];}
+function renderKal(){
+  var tb=document.getElementById('kbody'),rows='';
+  var b={};for(var i=0;i<ROT.length;i++)b[ROT[i]]=20;
+  for(var w=1;w<=20;w++){
+    for(var i=0;i<ROT.length;i++)b[ROT[i]]-=4;
+    var g=gK(w),dish,port,rc='';
+    if(w<=4){dish='<span class="tag-badge tag-aufbau">Aufbau-Phase</span>';port='TK wird aufgebaut';}
+    else{var v=b[g]+4;port=Math.max(0,v)+' Port. übrig';dish='<span class="tag-badge tag-cook">'+RN[g]+'</span>';b[g]+=20;}
+    if(w===ST.week)rc='cur';
+    rows+='<tr class="'+rc+'"><td style="font-size:0.78rem;color:#6B6960">Woche '+w+'</td><td>'+dish+'</td><td style="font-size:0.78rem;color:#6B6960">'+port+'</td></tr>';
+  }
+  tb.innerHTML=rows;
+}
+
+function uSa(){
+  var e1=document.getElementById('sa-lbl'),e2=document.getElementById('sa-dish');
+  if(!e1)return;var g=gK(ST.week);
+  e1.textContent=g?'Woche '+ST.week+' — heute kochen:':'Woche '+ST.week+' — Aufbau';
+  e2.textContent=g?RN[g]+' · 20 Port.':'→ Kochplan Tab';
+}
+
+function cw(d){
+  ST.week=Math.max(1,Math.min(20,ST.week+d));
+  document.getElementById('wlbl').textContent='Woche '+ST.week;
+  var w2=document.getElementById('wlbl2');if(w2)w2.textContent='Woche '+ST.week;
+  renderWeek();renderKal();
+}
+
+function upd(){
+  ST.fKg=parseInt(document.getElementById('fkg').value);
+  ST.fKc=parseInt(document.getElementById('fkc').value);
+  ST.lKg=parseInt(document.getElementById('lkg').value);
+  ST.lKc=parseInt(document.getElementById('lkc').value);
+  document.getElementById('fkg-v').textContent=ST.fKg+' kg';
+  document.getElementById('fkc-v').textContent=ST.fKc;
+  document.getElementById('lkg-v').textContent=ST.lKg+' kg';
+  document.getElementById('lkc-v').textContent=ST.lKc;
+  renderInfo();renderWeek();renderSnacks();renderKal();
+}
+
+function sv(id,btn){
+  document.querySelectorAll('.view').forEach(function(v){v.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById(id).classList.add('active');btn.classList.add('active');
+}
+
+var RR={
+  porridge:{title:"Porridge light + OJ",sub:"1 Portion · 15 Min · + 200ml Orangensaft",kc:480,p:"40g",f:"14g",k:"55g",ing:["40g Haferflocken zart","40g Whey Protein","100ml Wasser","35ml Hafermilch","120g Erdbeeren TK","60g Apfel Pink Lady","20g Walnüsse","1 TL Zucker kalorienfrei","200ml Orangensaft (separat)"],steps:["Haferflocken, Whey, Zucker + Wasser erhitzen. Ständig rühren.","Hafermilch dazu wenn andickt, kurz aufkochen.","Erdbeeren 2:30 Min Mikrowelle. Apfel würfeln.","In Schüssel garnieren. OJ separat trinken."],tip:"F: OJ täglich. L: OJ nur Di/Do/Fr/So — Porridge + OJ sprengt Lauras Slot."},
+  ruehrei:{title:"Rührei + Toast + OJ",sub:"1 Portion · 10 Min · + 200ml Orangensaft",kc:420,p:"42g",f:"12g",k:"18g",ing:["2 Eier M","150g Eiklar","2× Vollkorntoast (F) / 1× Toast (L)","Salz, Pfeffer","Optional: Spinat, Tomaten, Pilze","200ml Orangensaft"],steps:["2 Eier + 150g Eiklar verquirlen und würzen.","Gemüse nach Wahl rein.","Pfanne mittlere Hitze, goldbraun stocken lassen.","Toast parallel toasten. OJ dazu trinken."],tip:"Vitamin C aus OJ verbessert Eisenaufnahme aus Eiern."},
+  pfannkuchen:{title:"Pfannkuchen (Protein) + OJ",sub:"1 Portion (F) / halbe Menge (L) · 20 Min",kc:538,p:"54g",f:"10g",k:"56g",ing:["1 Ei M","65g Mehl","50g Whey Protein","114ml Hafermilch","34ml Sprudelwasser","Pflanzenöl","Topping: Apfelmus oder Magerquark","200ml Orangensaft"],steps:["Ei, 65g Mehl, 50g Whey, Hafermilch, Sprudelwasser mischen.","Mit Handmixer glatt rühren.","Pfanne fetten, mittlere Hitze, goldbraun backen.","L: alle Mengen halbieren. OJ separat."],tip:"65g Mehl — nicht 80g! Magerquark als Topping: +11g Protein."},
+  dahl:{title:"Hähnchen-Kokos-Dahl",sub:"20 Portionen · 45 Min aktiv",kc:290,p:"35g",f:"8g",k:"18g",ing:["2000g Hähnchenbrust","600g rote Linsen","2 Dosen Kokosmilch light","400g Baby-Spinat","4 Dosen stückige Tomaten","3 Zwiebeln","6 Knoblauchzehen","30g Ingwer","1 L Hühnerbrühe","3 TL Kurkuma","3 TL Kreuzkümmel","2 TL Garam Masala","2 EL Olivenöl","Salz, Pfeffer, Chili"],steps:["Zwiebeln, Knoblauch, Ingwer hacken. In Olivenöl 5 Min andünsten.","Gewürze 2 Min anrösten bis es duftet.","Hähnchen würfeln, anbraten bis außen weiß.","Tomaten, Kokosmilch, Brühe, Linsen rein. 20 Min köcheln.","Spinat einrühren, 2 Min ziehen lassen. Portionieren, einfrieren."],tip:"Kocht sich nach Schritt 4 von selbst. Linsen dicken die Sauce natürlich an."},
+  bolognese:{title:"Turkey-Bolognese",sub:"20 Portionen · 50 Min aktiv",kc:310,p:"38g",f:"7g",k:"16g",ing:["2000g Putenhack","400g rote Linsen","3 Dosen stückige Tomaten","80g Tomatenmark","400g Karotten","3 Zwiebeln","6 Knoblauchzehen","500ml Hühnerbrühe","15g Olivenöl","20g Oregano","Chiliflocken, Salz, Pfeffer"],steps:["Zwiebeln, Knoblauch, Karotten hacken. In Olivenöl 5 Min anbraten.","Tomatenmark 2 Min mitrösten. Putenhack krümelig anbraten.","Tomaten, Brühe, Linsen und Gewürze rein. 25 Min köcheln.","Abschmecken, portionieren, einfrieren."],tip:"Höchster Proteingehalt im Set (38g). Linsen machen die Sauce cremig ohne Andicken."},
+  stroganoff:{title:"Stroganoff (optimiert)",sub:"20 Portionen · 35 Min aktiv",kc:219,p:"32g",f:"6g",k:"4g",ing:["2000g Rindfleisch Hüfte","1000g braune Champignons","3 Zwiebeln","3 Knoblauchzehen","25g Olivenöl","25g Mehl","500ml Rinderfond","25g Worcestershire Soße","20g Dijonsenf","120g griech. Joghurt 2%","Schnittlauch, Chiliflocken, Salz, Pfeffer"],steps:["Fleisch scharf anbraten, herausnehmen.","Zwiebeln + Knoblauch glasig. Champignons goldbraun braten.","Mehl einstreuen, mit Fond ablöschen. Worcestershire + Senf rein.","Joghurt unterrühren, Fleisch zurück, kurz erwärmen."],tip:"Joghurt statt Creme Fine: mehr Protein, weniger Fett, Cremigkeit bleibt."},
+  curryhuhn:{title:"Curryhuhn (optimiert)",sub:"20 Portionen · 50 Min aktiv",kc:300,p:"30g",f:"12g",k:"10g",ing:["2000g Hähnchenbrust","200g Tomatenmark","100g Cherrytomaten","4 Karotten","2 Paprika","2 Knoblauchzehen","1 Zwiebel","15g Ingwer","2 TL Currypaste","250ml Kokosmilch","250ml Rama Cremefine 7%","Curry, Kurkuma, Garam Masala","40g Walnüsse","50g Skyr","1 EL Olivenöl"],steps:["Gemüse würfeln, Knoblauch + Ingwer hacken.","Olivenöl erhitzen, Tomatenmark + Currypaste anbraten.","Cherrytomaten rein, mit Kokos-Sahne ablöschen.","Hähnchen + Gemüse + Gewürze rein. 20 Min köcheln.","Skyr + Walnüsse einrühren, abschmecken."],tip:"Walnüsse statt Cashews: besseres Omega-3/6-Profil."},
+  gulasch:{title:"Ofengulasch",sub:"20 Portionen · 30 Min aktiv + 2,5h Ofen",kc:245,p:"30g",f:"10g",k:"7g",ing:["2500g Rindergulasch","1250g Zwiebeln","5 Knoblauchzehen","3 EL Olivenöl","5 EL Paprikapulver edelsüß","2 TL Paprikapulver rosenscharf","5 EL Tomatenmark","2 Lorbeerblätter","7 EL Rotweinessig","2000g Rinderfond","Salz, Pfeffer, Petersilie"],steps:["Ofen auf 180°C Ober-Unterhitze vorheizen.","Zwiebeln + Knoblauch in Mixer zerkleinern. In Olivenöl 15 Min goldbraun anbraten.","Tomatenmark + Paprikapulver + Lorbeer 2 Min anrösten. Mit Fond + Essig ablöschen.","Fleisch dazu, aufkochen. 2h im Ofen bei 180°C, dann 160°C weitere 1h.","Portionieren, einfrieren."],tip:"Ofen macht die Arbeit — aktive Zeit minimal. Fleisch wird mit der Gabel teilbar zart."},
+  butterchicken:{title:"Butter Chicken (optimiert)",sub:"20 Portionen · 45 Min aktiv",kc:270,p:"27g",f:"11g",k:"9g",ing:["2500g Hähnchenbrust","5 Zwiebeln","5 Knoblauchzehen","5cm Ingwer","30g Olivenöl","25g Butter","5 TL Garam Masala","2 TL Chilipulver","2 TL Kreuzkümmel","1250g passierte Tomaten","500g griech. Joghurt 2%","Salz, Pfeffer, Koriander"],steps:["Zwiebel, Knoblauch, Ingwer fein hacken. In Olivenöl andünsten.","Butter + Gewürze dazu. 3 Min dünsten.","Passierte Tomaten rein, 3 Min aufkochen.","Hähnchen in Stücke schneiden, 15 Min garen.","Joghurt einrühren — nicht mehr kochen. Portionieren."],tip:"Butter halbiert gegenüber Original, Sahne durch Joghurt ersetzt: deutlich bessere Makros."},
+  tikka:{title:"Chicken Tikka Masala (optimiert)",sub:"20 Portionen · 50 Min (Marinade abends vorher!)",kc:260,p:"29g",f:"9g",k:"8g",ing:["2500g Hähnchenbrust gewürfelt","10cm Ingwer","10 Knoblauchzehen","Cumin, Koriander, Garam Masala, Paprikapulver, Chili, Kurkuma","250g griech. Joghurt (Marinade)","2 Zitronen (Saft)","5 Zwiebeln","125g Ghee","1500g Dosentomaten","250ml Geflügelfond","125g Rama Cremefine 7%"],steps:["Abends: Marinade aus Joghurt + Gewürze + Zitronensaft + Knoblauch/Ingwer. Hähnchen einlegen, mind. 2h.","Hähnchen in Pfanne anbraten bis gebräunt. Beiseitelegen.","Zwiebeln in Ghee goldbraun braten. Gewürze + Tomatenmark anrösten.","Dosentomaten + Fond dazu. 10 Min köcheln.","Hähnchen + Cremefine rein. 10 Min fertig garen. Portionieren."],tip:"Marinade über Nacht = deutlich mehr Geschmack. Cremefine statt voller Sahne spart Kalorien."}
+};
+
+function oR(id){
+  var r=RR[id];if(!r)return;
+  var ings='';for(var i=0;i<r.ing.length;i++)ings+='<div class="ing-item">'+r.ing[i]+'</div>';
+  var steps='';for(var i=0;i<r.steps.length;i++)steps+='<div class="step"><div class="step-num">'+(i+1)+'</div><div>'+r.steps[i]+'</div></div>';
+  var fp=portG(id,'F'),lp=portG(id,'L');
+  var portBox='<div class="port-box">Portionsgröße Dose: Florian = <strong>'+fp+'g</strong> &nbsp;·&nbsp; Laura = <strong>'+lp+'g</strong></div>';
+  document.getElementById('pp').innerHTML=
+    '<button class="close-btn" onclick="cR()">Schließen</button>'+
+    '<div class="popup-title">'+r.title+'</div>'+
+    '<div class="popup-sub">'+r.sub+'</div>'+
+    portBox+
+    '<div class="popup-macros">'+
+      '<div class="macro-box"><div class="macro-val">'+r.kc+'</div><div class="macro-lbl">kcal</div></div>'+
+      '<div class="macro-box"><div class="macro-val">'+r.p+'</div><div class="macro-lbl">Protein</div></div>'+
+      '<div class="macro-box"><div class="macro-val">'+r.f+'</div><div class="macro-lbl">Fett</div></div>'+
+      '<div class="macro-box"><div class="macro-val">'+r.k+'</div><div class="macro-lbl">KH</div></div>'+
+    '</div>'+
+    '<div class="popup-section">Zutaten</div>'+
+    '<div class="ing-grid">'+ings+'</div>'+
+    '<div class="popup-section">Zubereitung</div>'+
+    steps+
+    '<div class="tip-box">Tipp: '+r.tip+'</div>';
+  document.getElementById('ov').classList.add('open');
+}
+function cR(){document.getElementById('ov').classList.remove('open');}
+function cib(e){if(e.target===document.getElementById('ov'))cR();}
+
+document.getElementById('fkg').addEventListener('input',upd);
+document.getElementById('fkc').addEventListener('input',upd);
+document.getElementById('lkg').addEventListener('input',upd);
+document.getElementById('lkc').addEventListener('input',upd);
+ROT.forEach(function(id){document.getElementById('w-'+id).addEventListener('input',function(){saveW(id);});});
+
+upd();
+loadW();
+</script>
+</body>
+</html>
