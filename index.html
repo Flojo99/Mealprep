@@ -281,7 +281,9 @@ var SNACK=[
 
 // Makros berechnen
 var BASE_KC=2900;
+var BASE_KG=95;
 function scaleFactor(kc){return kc/BASE_KC;}
+function weightFactor(kg){return kg/BASE_KG;}
 function mac(ing,factor){
   var f=factor||1;
   var r={kc:0,p:0,f:0,k:0};
@@ -303,7 +305,7 @@ function loadAll(){
 }
 
 // Portionsgröße TK
-function portG(id,p){var w=WTS[id]>0?WTS[id]:DW[id];var fp=Math.round(w/20);return p==="F"?fp:Math.round(fp*0.75);}
+function portG(id,p){var w=WTS[id]>0?WTS[id]:DW[id];var fp=Math.round(w/20*weightFactor(ST.fKg));return p==="F"?fp:Math.round(fp*0.75);}
 function updWR(id,v){var el=document.getElementById("wr-"+id);if(!el)return;var fp=Math.round(v/20),lp=Math.round(fp*0.75);el.innerHTML="Florian: <strong>"+fp+"g</strong> pro Dose &nbsp;·&nbsp; Laura: <strong>"+lp+"g</strong> pro Dose";}
 function saveW(id){var v=parseInt(document.getElementById("w-"+id).value);if(!v||v<100)return;WTS[id]=v;updWR(id,v);try{localStorage.setItem("mp-w-"+id,String(v));document.getElementById("ws-"+id).style.display="inline";}catch(e){}renderWeek();}
 function loadW(){ROT.forEach(function(id){try{var v=localStorage.getItem("mp-w-"+id);if(v){var n=parseInt(v);WTS[id]=n;document.getElementById("w-"+id).value=n;document.getElementById("ws-"+id).style.display="inline";updWR(id,n);}else{updWR(id,DW[id]);}}catch(e){updWR(id,DW[id]);}});}
@@ -318,7 +320,7 @@ function renderInfo(){
 
 function renderWeek(){
   var fKcB=ST.fKc,lKcB=ST.lKc,fP=ST.fKg*2,lP=ST.lKg*2;
-  var SHfix=mac(REC.shake.ing,scaleFactor(ST.fKc));
+  var SHfix=mac(REC.shake.ing,scaleFactor(ST.fKc)*weightFactor(ST.fKg));
   var html="";
   for(var i=0;i<PLAN.length;i++){
     var p=PLAN[i];
@@ -341,12 +343,14 @@ function renderWeek(){
     var fBg1=Math.max(50,Math.round((fM1S-TKkc)/bk));
     var fBg2=Math.max(50,Math.round((fM2S-TKkc)/bk));
     var lBg=Math.max(20,Math.round((lS-TLkc)/bk));
-    var fM1kc=TKkc+Math.round(fBg1*bk),fM2kc=TKkc+Math.round(fBg2*bk);
+    var fTKkc=Math.round(TKkc*weightFactor(ST.fKg));
+    var fM1kc=fTKkc+Math.round(fBg1*bk),fM2kc=fTKkc+Math.round(fBg2*bk);
     var lMkc=TLkc+Math.round(lBg*bk);
-    var abM=mac(ABEND[i].ing,scaleFactor(fKc));
+    var abM=mac(ABEND[i].ing,scaleFactor(fKc)*weightFactor(ST.fKg));
     var fg1=portG(p.g1,"F"),lg1=portG(p.g1,"L"),fg2=portG(p.g2,"F"),lg2=portG(p.g2,"L");
     var fTot=ffM.kc+fM1kc+shM.kc+fM2kc+abM.kc;
-    var fPTot=ffM.p+TKp+shM.p+TKp+abM.p;
+    var fTKp=Math.round(TKp*weightFactor(ST.fKg));
+    var fPTot=ffM.p+fTKp+shM.p+fTKp+abM.p;
     var lFrTotal=lOJkc+lFrKc[p.fr],lSnKc=lS,lAbKc=Math.max(100,lKc-(lFrTotal+lMkc+lSnKc+lMkc));
     var lTot=lFrTotal+lMkc+lSnKc+lMkc+lAbKc;
     var lPTot=lOJp+lFrP[p.fr]+TLp+15+TLp+18;
@@ -368,13 +372,13 @@ function renderWeek(){
         '<div class="mf" id="fr-f-'+i+'">'+ff.name+' · '+ffM.kc+'kcal / '+ffM.p+'g P</div>'+
         '<div class="mfl" id="fr-l-'+i+'">'+lOJs+lFrNames[p.fr]+' · '+lFrTotal+'kcal'+lOJh+'</div></div>'+
       '<div class="ml"><div class="ml-l">Mahlzeit 1 ('+fM1S+'kcal)</div>'+
-        '<div class="mf" id="m1-f-'+i+'">'+RN[p.g1]+' <strong>'+fg1+'g</strong> + '+fBg1+'g '+p.b+' · '+fM1kc+'kcal / '+TKp+'g P</div>'+
+        '<div class="mf" id="m1-f-'+i+'">'+RN[p.g1]+' <strong>'+fg1+'g</strong> + '+fBg1+'g '+p.b+' · '+fM1kc+'kcal / '+fTKp+'g P</div>'+
         '<div class="mfl" id="m1-l-'+i+'">'+RN[p.g1]+' <strong>'+lg1+'g</strong> + '+lBg+'g '+p.b+' · '+lMkc+'kcal / '+TLp+'g P</div></div>'+
       '<div class="ml"><div class="ml-l">Shake (fix)</div>'+
         '<div class="mf" id="sh-'+i+'">Shake · '+shM.kc+'kcal / '+shM.p+'g P</div>'+
         '<div class="mfl">L: Snack-Rotation · ~'+lSnKc+'kcal</div></div>'+
       '<div class="ml"><div class="ml-l">Mahlzeit 2 ('+fM2S+'kcal)</div>'+
-        '<div class="mf" id="m2-f-'+i+'">'+RN[p.g2]+' <strong>'+fg2+'g</strong> + '+fBg2+'g '+p.b+' · '+fM2kc+'kcal / '+TKp+'g P</div>'+
+        '<div class="mf" id="m2-f-'+i+'">'+RN[p.g2]+' <strong>'+fg2+'g</strong> + '+fBg2+'g '+p.b+' · '+fM2kc+'kcal / '+fTKp+'g P</div>'+
         '<div class="mfl" id="m2-l-'+i+'">'+RN[p.g2]+' <strong>'+lg2+'g</strong> + '+lBg+'g '+p.b+' · '+lMkc+'kcal / '+TLp+'g P</div></div>'+
       '<div class="ml"><div class="ml-l">Abend (~'+fAbS+'kcal)</div>'+
         '<div class="mf" id="ab-f-'+i+'"><strong>'+ABEND[i].name+'</strong> · '+abM.kc+'kcal / '+abM.p+'g P / <span style="color:var(--blue)">'+abM.k+'g KH</span></div>'+
