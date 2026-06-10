@@ -280,14 +280,18 @@ var SNACK=[
 ];
 
 // Makros berechnen
-function mac(ing){
+var BASE_KC=2900;
+function scaleFactor(kc){return kc/BASE_KC;}
+function mac(ing,factor){
+  var f=factor||1;
   var r={kc:0,p:0,f:0,k:0};
   ing.forEach(function(x){
-    if(x.u==="Stk"||x.u==="Schb."){r.kc+=x.kc*x.v;r.p+=x.p*x.v;r.f+=x.f*x.v;r.k+=x.k*x.v;}
-    else{r.kc+=x.kc*x.v;r.p+=x.p*x.v;r.f+=x.f*x.v;r.k+=x.k*x.v;}
+    var v=x.v*f;
+    r.kc+=x.kc*v;r.p+=x.p*v;r.f+=x.f*v;r.k+=x.k*v;
   });
   return {kc:Math.round(r.kc),p:Math.round(r.p),f:Math.round(r.f),k:Math.round(r.k)};
 }
+function scaledV(v,f){return Math.round(v*f*10)/10;}
 
 // Speicher
 function loadRec(key,ing){try{var s=localStorage.getItem("rec-"+key);if(s){var d=JSON.parse(s);d.forEach(function(v,i){if(ing[i])ing[i].v=v;});}}catch(e){}}
@@ -314,7 +318,7 @@ function renderInfo(){
 
 function renderWeek(){
   var fKcB=ST.fKc,lKcB=ST.lKc,fP=ST.fKg*2,lP=ST.lKg*2;
-  var SHfix=mac(REC.shake.ing);
+  var SHfix=mac(REC.shake.ing,scaleFactor(ST.fKc));
   var html="";
   for(var i=0;i<PLAN.length;i++){
     var p=PLAN[i];
@@ -327,7 +331,7 @@ function renderWeek(){
     var fAbS=Math.max(300,fKc-fFrS-fM1S-SHfix.kc-fM2S);
     var lS=Math.round(lKc/5);
 
-    var ff=REC[p.fr],ffM=mac(ff.ing),shM=SHfix;
+    var ff=REC[p.fr],ffM=mac(ff.ing,scaleFactor(fKc)),shM=SHfix;
     var lOJkc=p.lOJ?OJkc:0,lOJp=p.lOJ?OJp:0;
     var lFrNames={porridge:"Porridge",ruehrei:"Rührei + Toast",pfannkuchen:"Pfannkuchen ½"};
     var lFrKc={porridge:350,ruehrei:240,pfannkuchen:270};
@@ -339,7 +343,7 @@ function renderWeek(){
     var lBg=Math.max(20,Math.round((lS-TLkc)/bk));
     var fM1kc=TKkc+Math.round(fBg1*bk),fM2kc=TKkc+Math.round(fBg2*bk);
     var lMkc=TLkc+Math.round(lBg*bk);
-    var abM=mac(ABEND[i].ing);
+    var abM=mac(ABEND[i].ing,scaleFactor(fKc));
     var fg1=portG(p.g1,"F"),lg1=portG(p.g1,"L"),fg2=portG(p.g2,"F"),lg2=portG(p.g2,"L");
     var fTot=ffM.kc+fM1kc+shM.kc+fM2kc+abM.kc;
     var fPTot=ffM.p+TKp+shM.p+TKp+abM.p;
@@ -402,12 +406,15 @@ function renderWeek(){
 }
 
 // Popup aufbauen
-function ingTable(key,ing){
+function ingTable(key,ing,factor){
+  var f=factor||1;
   var rows=ing.map(function(x,i){
-    return '<tr><td>'+x.n+'</td><td><input class="ing-inp" type="number" id="ii-'+key+'-'+i+'" value="'+x.v+'" step="1"><span class="ing-unit">'+x.u+'</span></td></tr>';
+    var displayV=Math.round(x.v*f*10)/10;
+    return '<tr><td>'+x.n+'</td><td><input class="ing-inp" type="number" id="ii-'+key+'-'+i+'" value="'+displayV+'" step="0.5" data-base="'+x.v+'" data-factor="'+f+'"><span class="ing-unit">'+x.u+'</span></td></tr>';
   }).join("");
-  return '<table class="ing-tbl"><thead><tr><th>Zutat</th><th style="text-align:right">Menge</th></tr></thead><tbody>'+rows+'</tbody></table>'+
-    '<button class="sav-btn" data-key="'+key+'" onclick="saveIng(this.dataset.key)">Speichern</button><span class="sav-ok" id="sok-'+key+'">✓ gespeichert</span>';
+  return '<table class="ing-tbl"><thead><tr><th>Zutat</th><th style="text-align:right">Menge (bei '+Math.round(ST.fKc)+'kcal)</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+    '<div style="font-size:.72rem;color:var(--txt2);margin:.5rem 0">Gespeichert wird als Basiswert ('+BASE_KC+'kcal). Skalierung passiert automatisch.</div>'+
+    '<button class="sav-btn" data-key="'+key+'" onclick="saveIng(this.dataset.key)">Speichern als Basis</button><span class="sav-ok" id="sok-'+key+'">✓ gespeichert</span>';
 }
 function macBox(m){
   return '<div class="pp-mac">'+
@@ -425,7 +432,14 @@ function saveIng(key){
   else if(key.substr(0,2)==="ab")ing=ABEND[parseInt(key.substr(2))].ing;
   else if(key.substr(0,2)==="sn")ing=SNACK[parseInt(key.substr(2))].ing;
   if(!ing)return;
-  ing.forEach(function(x,i){var el=document.getElementById("ii-"+key+"-"+i);if(el)x.v=parseFloat(el.value)||x.v;});
+  ing.forEach(function(x,i){
+    var el=document.getElementById("ii-"+key+"-"+i);
+    if(el){
+      var displayVal=parseFloat(el.value)||x.v;
+      var f=parseFloat(el.dataset.factor)||1;
+      x.v=Math.round(displayVal/f*10)/10; // zurück auf Basis skalieren
+    }
+  });
   saveRec(key,ing);
   var ok=document.getElementById("sok-"+key);
   if(ok){ok.style.display="inline";setTimeout(function(){ok.style.display="none";},2000);}
@@ -437,16 +451,17 @@ function oR(id){
   var isTK=ROT.indexOf(id)>=0;
   var r=REC[id];
   if(!r){showTKPopup(id);return;}
-  var m=mac(r.ing);
+  var f=scaleFactor(ST.fKc);
+  var m=mac(r.ing,f);
   var fp=portG(id,"F"),lp=portG(id,"L");
   var portBox=isTK?'<div class="port-b">Portionsgröße: Florian = <strong>'+fp+'g</strong> &nbsp;·&nbsp; Laura = <strong>'+lp+'g</strong></div>':"";
   document.getElementById("pp").innerHTML=
     '<button class="cls-btn" onclick="cR()">Schließen</button>'+
     '<div class="pp-ttl">'+r.name+'</div>'+
-    '<div class="pp-sub">Zutaten bearbeiten → Speichern → Makros aktualisieren sich</div>'+
+    '<div class="pp-sub">Mengen bei '+ST.fKc+'kcal · Basis ändern → für alle Tage gespeichert</div>'+
     portBox+macBox(m)+
     '<div class="pp-sec">Zutaten (editierbar)</div>'+
-    ingTable(id,r.ing)+
+    ingTable(id,r.ing,f)+
     '<div class="pp-sec">Zubereitung</div>'+stepsHtml(r.steps)+
     '<div class="tip-b">Tipp: '+r.tip+'</div>';
   document.getElementById("ov").classList.add("open");
@@ -497,46 +512,53 @@ function showTKPopup(id){
 }
 
 function oRAbend(idx){
-  var s=ABEND[idx],key="ab"+idx,m=mac(s.ing);
+  var s=ABEND[idx],key="ab"+idx;
+  var f=scaleFactor(ST.fKc);
+  var m=mac(s.ing,f);
   document.getElementById("pp").innerHTML=
     '<button class="cls-btn" onclick="cR()">Schließen</button>'+
     '<div class="pp-ttl">'+s.tag+': '+s.name+'</div>'+
-    '<div class="pp-sub">Florian Abend · Mengen editierbar</div>'+
+    '<div class="pp-sub">Florian Abend · Mengen bei '+ST.fKc+'kcal</div>'+
     '<div class="pp-mac">'+
-      '<div class="mb"><div class="mv" id="lv-kc">'+m.kc+'</div><div class="ml2">kcal</div></div>'+
-      '<div class="mb"><div class="mv" id="lv-p">'+m.p+'</div><div class="ml2">Protein</div></div>'+
-      '<div class="mb"><div class="mv" id="lv-f">'+m.f+'</div><div class="ml2">Fett</div></div>'+
-      '<div class="mb"><div class="mv" id="lv-k" style="color:var(--blue)">'+m.k+'</div><div class="ml2">KH ✓</div></div>'+
+      '<div class="mb"><div class="mv">'+m.kc+'</div><div class="ml2">kcal</div></div>'+
+      '<div class="mb"><div class="mv">'+m.p+'</div><div class="ml2">Protein</div></div>'+
+      '<div class="mb"><div class="mv">'+m.f+'</div><div class="ml2">Fett</div></div>'+
+      '<div class="mb"><div class="mv" style="color:var(--blue)">'+m.k+'</div><div class="ml2">KH ✓</div></div>'+
     '</div>'+
-    ingTable(key,s.ing)+
+    ingTable(key,s.ing,f)+
     '<div class="tip-b">Tipp: '+s.tip+'</div>';
   document.getElementById("ov").classList.add("open");
 }
 
 function oRSnack(idx){
-  var s=SNACK[idx],key="sn"+idx,m=mac(s.ing);
+  var s=SNACK[idx],key="sn"+idx;
+  var f=scaleFactor(ST.lKc);
+  var m=mac(s.ing,f);
   document.getElementById("pp").innerHTML=
     '<button class="cls-btn" onclick="cR()">Schließen</button>'+
     '<div class="pp-ttl">'+s.name+'</div>'+
-    '<div class="pp-sub">Laura Snack · Mengen editierbar</div>'+
+    '<div class="pp-sub">Laura Snack · Mengen bei '+ST.lKc+'kcal</div>'+
     '<div class="pp-mac">'+
-      '<div class="mb"><div class="mv" id="lv-kc">'+m.kc+'</div><div class="ml2">kcal</div></div>'+
-      '<div class="mb"><div class="mv" id="lv-p">'+m.p+'</div><div class="ml2">Protein</div></div>'+
-      '<div class="mb"><div class="mv" id="lv-f">'+m.f+'</div><div class="ml2">Fett</div></div>'+
-      '<div class="mb"><div class="mv" id="lv-k">'+m.k+'</div><div class="ml2">KH</div></div>'+
+      '<div class="mb"><div class="mv">'+m.kc+'</div><div class="ml2">kcal</div></div>'+
+      '<div class="mb"><div class="mv">'+m.p+'</div><div class="ml2">Protein</div></div>'+
+      '<div class="mb"><div class="mv">'+m.f+'</div><div class="ml2">Fett</div></div>'+
+      '<div class="mb"><div class="mv">'+m.k+'</div><div class="ml2">KH</div></div>'+
     '</div>'+
-    ingTable(key,s.ing)+
+    ingTable(key,s.ing,f)+
     '<div class="tip-b">Tipp: '+s.tip+'</div>';
   document.getElementById("ov").classList.add("open");
 }
 
+
 function renderSnacks(){
   var lS=Math.round(ST.lKc/5),html="";
+  var lf=scaleFactor(ST.lKc);
   SNACK.forEach(function(s,i){
-    var m=mac(s.ing),d=lS-m.kc,h=Math.abs(d)<30?"passt ✓":d>0?"+"+d+"kcal → größer":d+"kcal → kleiner";
+    var m=mac(s.ing,lf),d=lS-m.kc,h=Math.abs(d)<30?"passt ✓":d>0?"+"+d+"kcal → größer":d+"kcal → kleiner";
+    var ingStr=s.ing.map(function(x){return Math.round(x.v*lf*10)/10+(x.u!=="Stk"&&x.u!=="Schb."?x.u:" Stk")+" "+x.n;}).join(" · ");
     html+='<div class="sn-c" onclick="oRSnack('+i+')">'+
       '<div class="sn-n">'+s.name+' <span class="sn-tg" style="background:'+s.tc+';color:'+s.tt+'">'+s.tag+'</span></div>'+
-      '<div class="sn-m">'+s.ing.map(function(x){return x.v+(x.u!=="Stk"&&x.u!=="Schb."?x.u:" Stk")+" "+x.n;}).join(" · ")+'</div>'+
+      '<div class="sn-m">'+ingStr+'</div>'+
       '<div class="sn-mk"><span class="sn-mb">'+m.kc+' kcal</span><span class="sn-mb">'+m.p+'g P</span><span class="sn-mb">'+m.f+'g F</span><span class="sn-mb sn-kh">'+m.k+'g KH</span></div>'+
       '<div class="sn-h">Slot ~'+lS+'kcal: '+h+' · Anklicken zum Bearbeiten</div>'+
     '</div>';
@@ -546,11 +568,13 @@ function renderSnacks(){
 
 function renderAbend(){
   var html="";
+  var ff=scaleFactor(ST.fKc);
   ABEND.forEach(function(s,i){
-    var m=mac(s.ing);
+    var m=mac(s.ing,ff);
+    var ingStr=s.ing.map(function(x){return Math.round(x.v*ff*10)/10+(x.u!=="Stk"&&x.u!=="Schb."?x.u:" Stk")+" "+x.n;}).join(" · ");
     html+='<div class="sn-c" onclick="oRAbend('+i+')">'+
       '<div class="sn-n" style="color:var(--fc)"><strong>'+s.tag+':</strong> '+s.name+'</div>'+
-      '<div class="sn-m">'+s.ing.map(function(x){return x.v+(x.u!=="Stk"&&x.u!=="Schb."?x.u:" Stk")+" "+x.n;}).join(" · ")+'</div>'+
+      '<div class="sn-m">'+ingStr+'</div>'+
       '<div class="sn-mk"><span class="sn-mb">'+m.kc+' kcal</span><span class="sn-mb">'+m.p+'g P</span><span class="sn-mb">'+m.f+'g F</span><span class="sn-mb sn-kh">'+m.k+'g KH ✓</span></div>'+
       '<div class="sn-h">Anklicken zum Bearbeiten der Mengen</div>'+
     '</div>';
