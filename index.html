@@ -1,11 +1,260 @@
 <!DOCTYPE html>
 <html lang="de">
-<head
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Meal Prep Plan — Florian &amp; Laura</title>
+<style>
+:root {
+  --bg: #F7F6F2;
+  --surface: #FFFFFF;
+  --surface2: #F0EFE9;
+  --border: #E2E0D8;
+  --border2: #D0CEC4;
+  --text: #1A1A18;
+  --text2: #6B6960;
+  --text3: #9B9890;
+  --blue: #1A5FA8;
+  --blue-bg: #EBF2FB;
+  --green: #1A7A4A;
+  --green-bg: #E8F5EE;
+  --amber: #92600A;
+  --amber-bg: #FDF3E3;
+  --red: #B02020;
+  --cook: #1655A0;
+  --cook-bg: #E6F0FB;
+  --f-color: #1A5FA8;
+  --l-color: #8B4A00;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --r: 8px;
+  --r2: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.5; }
+.app { max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
+.header { margin-bottom: 1.5rem; }
+.header h1 { font-size: 1.25rem; font-weight: 600; }
+.header p { font-size: 0.85rem; color: var(--text2); margin-top: 2px; }
+.settings { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+.settings-title { font-size: 0.7rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.875rem; }
+.settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.person-card { background: var(--surface2); border-radius: var(--r); padding: 0.875rem 1rem; }
+.person-name { font-size: 0.8rem; font-weight: 600; margin-bottom: 0.625rem; }
+.person-name.f { color: var(--f-color); }
+.person-name.l { color: var(--l-color); }
+.slider-row { display: flex; align-items: center; gap: 0.625rem; margin-bottom: 0.5rem; }
+.slider-label { font-size: 0.75rem; color: var(--text2); width: 80px; flex-shrink: 0; }
+.slider-row input[type=range] { flex: 1; accent-color: var(--blue); }
+.slider-val { font-size: 0.8rem; font-weight: 600; min-width: 55px; color: var(--text); }
+.person-info { font-size: 0.72rem; color: var(--text2); margin-top: 0.5rem; padding: 0.4rem 0.6rem; background: var(--bg); border-radius: 6px; line-height: 1.9; }
+.tabs { display: flex; gap: 4px; margin-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+.tab { padding: 0.5rem 0.875rem; font-size: 0.8rem; color: var(--text2); cursor: pointer; background: transparent; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: var(--font); }
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--blue); font-weight: 500; border-bottom-color: var(--blue); }
+.view { display: none; }
+.view.active { display: block; }
+.week-nav { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+.week-nav button { padding: 0.375rem 0.875rem; font-size: 0.8rem; border: 1px solid var(--border2); border-radius: 6px; background: var(--surface); color: var(--text); cursor: pointer; font-family: var(--font); }
+.week-nav button:hover { background: var(--surface2); }
+.week-label { font-size: 0.9rem; font-weight: 500; min-width: 70px; text-align: center; }
+.legend { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.leg-item { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--text2); }
+.leg-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.day-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); padding: 0.625rem; }
+.day-card.tr { border-top: 3px solid #1A7A4A; }
+.day-card.re { border-top: 3px solid var(--border2); }
+.day-card.ko { border-top: 3px solid #1655A0; }
+.day-name { font-size: 0.75rem; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.badge { display: inline-block; font-size: 0.6rem; font-weight: 600; padding: 1px 5px; border-radius: 4px; margin-bottom: 4px; margin-right: 2px; }
+.badge.tr { background: #E1F5EE; color: #1A7A4A; }
+.badge.re { background: var(--surface2); color: var(--text2); }
+.badge.ko { background: #E6F0FB; color: #1655A02; }
+.beilage { background: #FAEEDA; border-radius: 6px; padding: 4px 7px; margin-bottom: 5px; }
+.beilage-name { font-size: 0.6rem; font-weight: 600; color: #92600A;margin-bottom: 1px; }
+.beilage-detail { font-size: 0.6rem; color: #7A4A0; line-height: 1.7; }
+.cook-box { background: #E6F0FB; border-radius: 6px; padding: 5px 7px; margin: 4px 0; font-size: 0.65rem; color: #1655A0; }
+.cook-box-label { font-size: 0.58rem; font-weight: 600; color: #0D6789; margin-bottom: 1px; }
+.meal { margin-bottom: 4px; padding: 4px 6px; border-radius: 6px; background: var(--surface2); }
+.meal-label { font-size: 0.58rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+.meal-f { font-size: 0.65rem; color: var(--f-color); cursor: pointer; line-height: 1.5; }
+.meal-l { font-size: 0.65rem; color: var(--l-color); cursor: pointer; line-height: 1.5; }
+.meal-f:hover, .meal-l:hover { text-decoration: underline; }
+.day-summary { margin-top: 5px; padding: 5px 6px; background: var(--surface2); border-radius: 6px; }
+.sum-row { font-size: 0.6rem; color: var(--text2); margin-bottom: 2px; }
+.sum-bar { height: 3px; border-radius: 2px; background: var(--border); margin-bottom: 3px; overflow: hidden; }
+.sum-fill { height: 3px; border-radius: 2px; }
+.hint { font-size: 0.72rem; color: var(--text2); margin-top: 0.75rem; padding: 0.5rem 0.75rem; background: var(--surface2); border-radius: 6px; }
+.kp-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
+.kp-tag { font-size: 0.72rem; color: var(--text2); margin-bottom: 3px; }
+.kp-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+.kp-body { font-size: 0.8rem; color: var(--text2); line-height: 1.9; }
+.kp-link { color: var(--blue); cursor: pointer; text-decoration: none; }
+.kp-link:hover { text-decoration: underline; }
+.section-label { font-size: 0.7rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin: 1rem 0 0.5rem; }
+.w-row { display: flex; align-items: center; gap: 8px; margin-top: 10px; padding: 7px 10px; background: var(--surface2); border-radius: 6px; }
+.w-label { font-size: 0.75rem; color: var(--text2); flex: 1; }
+.w-input { width: 90px; font-size: 0.82rem; padding: 4px 8px; border: 1px solid var(--border2); border-radius: 6px; background: var(--surface); color: var(--text); text-align: right; font-family: var(--font); }
+.w-input:focus { outline: 2px solid var(--blue); border-color: transparent; }
+.w-unit { font-size: 0.75rem; color: var(--text2); }
+.w-saved { font-size: 0.65rem; color: #1A7A4A; background: #E8F5EE; padding: 2px 6px; border-radius: 4px; margin-left: 4px; display: none; }
+.w-result { font-size: 0.72rem; color: var(--text2); margin-top: 4px; padding: 2px 10px; }
+.overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.45); z-index: 200; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto; }
+.overlay.open { display: flex; }
+.popup { background: var(--surface); border-radius: var(--r2); border: 1px solid var(--border); width: 100%; max-width: 500px; padding: 1.5rem; margin-top: 1rem; }
+.popup-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 3px; }
+.popup-sub { font-size: 0.75rem; color: var(--text2); margin-bottom: 0.875rem; }
+.popup-macros { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 1rem; }
+.macro-box { background: var(--surface2); border-radius: 6px; padding: 7px; text-align: center; }
+.macro-val { font-size: 1rem; font-weight: 600; }
+.macro-lbl { font-size: 0.65rem; color: var(--text2); }
+.port-box { font-size: 0.8rem; padding: 7px 10px; background: #E8F5EE; border-radius: 6px; color: #1A7A4A; margin-bottom: 0.875rem; }
+.popup-section { font-size: 0.68rem; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin: 0.875rem 0 0.4rem; }
+.ing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 0.5rem; }
+.ing-item { font-size: 0.75rem; padding: 3px 7px; background: var(--surface2); border-radius: 5px; }
+.step { display: flex; gap: 8px; margin-bottom: 6px; font-size: 0.8rem; line-height: 1.5; }
+.step-num { width: 20px; height: 20px; border-radius: 50%; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 600; flex-shrink: 0; margin-top: 1px; color: var(--text2); }
+.close-btn { float: right; cursor: pointer; font-size: 0.8rem; color: var(--text2); padding: 3px 10px; border: 1px solid var(--border2); border-radius: 5px; background: var(--surface); font-family: var(--font); }
+.close-btn:hover { background: var(--surface2); }
+.tip-box { font-size: 0.75rem; padding: 8px 10px; background: var(--surface2); border-radius: 6px; color: var(--text2); margin-top: 0.75rem; }
+.snack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.snack-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r2); padding: 0.875rem; }
+.snack-name { font-size: 0.85rem; font-weight: 600; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; }
+.snack-tag { font-size: 0.65rem; padding: 1px 6px; border-radius: 4px; font-weight: 500; }
+.snack-menge { font-size: 0.78rem; color: var(--text2); line-height: 1.7; margin-bottom: 6px; }
+.snack-macros { display: flex; gap: 5px; flex-wrap: wrap; }
+.snack-macro { font-size: 0.68rem; padding: 2px 6px; border-radius: 4px; background: var(--surface2); color: var(--text2); }
+.kal-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+.kal-table th { text-align: left; font-size: 0.7rem; font-weight: 600; color: var(--text3); padding: 7px 10px; border-bottom: 1px solid var(--border); }
+.kal-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); }
+.kal-table tr.cur td { background: #EBF2FB; }
+.tag-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; }
+.tag-aufbau { background: var(--surface2); color: var(--text2); }
+.tag-cook { background: #E8F5EE; color: #1A7A4A; }
+</style>
 </head>
 <body>
-<sorry>Bitte die full HTML-Datei verwenden</sorry>
-</body>
-</html>
+<div class="app">
+
+<div class="header">
+  <h1>Meal Prep Plan</h1>
+  <p>Florian &amp; Laura — Muskelaufbau &amp; Recomposition</p>
+</div>
+
+<div class="settings">
+  <div class="settings-title">K&ouml;roerpergewicht &amp; Kalorienbedarf &#8211; Protein wird automatisch berechnet (2g/kg)</div>
+  <div class="settings-grid">
+    <div class="person-card">
+      <div class="person-name f">Florian</div>
+      <div class="slider-row"><span class="slider-label">Gewicht (kg)</span><input type="range" min="70" max="120" step="1" value="95" id="fkg"><span class="slider-val" id="fkg-v">95 kg</span></div>
+      <div class="slider-row"><span class="slider-label">Kalorien</span><input type="range" min="2200" max="3500" step="50" value="2900" id="fkc"><span class="slider-val" id="fkc-v">2900</span></div>
+      <div class="person-info" id="f-info"></div>
+    </div>
+    <div class="person-card">
+      <div class="person-name l">Laura</div>
+      <div class="slider-row"><span class="slider-label">Gewicht (kg)</span><input type="range" min="45" max="90" step="1" value="62" id="lkg"><span class="slider-val" id="lkg-v">62 kg</span></div>
+      <div class="slider-row"><span class="slider-label">Kalorien</span><input type="range" min="1200" max="2200" step="50" value="1700" id="lkc"><span class="slider-val" id="lkc-v">1700</span></div>
+      <div class="person-info" id="l-info"></div>
+    </div>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="sv('tableau',this)">Wochentableau</button>
+  <button class="tab" onclick="sv('kochplan',this)">Kochplan Laura</button>
+  <button class="tab" onclick="sv('kalender',this)">Nachkoch-Kalender</button>
+  <button class="tab" onclick="sv('snacks',this)">Snacks Laura</button>
+</div>
+
+<div id="tableau" class="view active">
+  <div class="legend">
+    <div class="leg-item"><div class="leg-dot" style="background:#1A7A4A"></div>Trainingstag</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#C0BEB6"></div>Ruhetag</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#1655A0"></div>Kochtag</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#1A5FA8"></div>F = Florian</div>
+    <div class="leg-item"><div class="leg-dot" style="background:#8B4A00"></div>L = Laura</div>
+    <div class="leg-item">Gerichte anklicken → Rezept</div>
+  </div>
+  <div class="week-nav">
+    <button onclick="cw(-1)">← zurück</button>
+    <div class="week-label" id="wlbl">Woche 1</div>
+    <button onclick="cw(1)">weiter →</button>
+  </div>
+  <div class="week-grid" id="wgrid"></div>
+  <div class="hint">F: OJ jeden Tag &nbsp;&middot;&nbsp; L: OJ nur Di/Do/Fr/So &nbsp;&middot;&nbsp; Reis/Nudeln alle 2 Tage frisch &nbsp;&middot;&nbsp; Kartoffeln 1 kg Pellkartoffeln</div>
+</div>
+
+<div id="kochplan" class="view">
+  <p style="font-size:0.82rem;color:#6B6960;margin-bottom:1rem">Gesamtgewicht einmalig eintragen → wird gespeichert → Portionsgrößen erscheinen im Tableau und in jedem Rezept.</p>
+  <div class="section-label">Wochenende 1</div>
+  <div class="kp-card" style="border-left:3px solid #1A5FA8">
+    <div class="kp-tag">Samstag — ca. 2,Sh &#8404; parallel kochen</div>
+    <div class="kp-title">H&auml;nchen-Kokos-Dahl + Turkey-Bolognese</div>
+    <div class="kp-body">Dahl: 20 Port. &middot; 45 Min &middot; <span class="kp-link" onclick="oR('dahl')">&#8594; Rezept</span><br>Bolognese: 20 Port. &middot; 50 Min &middot; <span class="kp-link" onclick="oR('bolognese')">&#8594; Rezept</span></div>
+    <div class="w-row"><span class="w-label">Dahl &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-dahl" placeholder="ca. 4800"><span class="w-unit">g</span><span class="w-saved" id="ws-dahl">&#10003; gespeichert</span></div>
+    <div class="w-saved w-result" id="wr-dahl"></div>
+    <div class="w-row"><span class="w-label">Bolognese &#8212; Gesamtgewicht fertig gekocht</span><input class="w-knput" type="number" id="w-olognese" placeholder="ca. 3600"><span class="w-saved" id="ws-bolognese">&#10003; gespeichert</span></div>
+    <div class="w-result" id="wr-bolognese"></div>
+  </div>
+  <div class="kp-card" style="border-left:3px solid #1A5FA8">
+    <div class="kp-tag">Sonntag &#8212; ca. 3h</div>
+    <div class="kp-title">Ofengulasch + Curryhuhn</div>
+    <div class="kp-body">Gulasch: 20 Port. &middot; 30 Min + 2,Sh Ofen &middot; <span class="kp-link" onclick="oR('gulasch')">&#8594; Rezept</span><br>Curryhuhn: 20 Port. &middot; 50 Min &middot; <span class="kp-link" onclick="oR('curryhuhn')">&#8594; Rezept</span></div>
+    <div class="w-row"><span class="w-klabel">Gulasch &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-olasch" placeholder="ca. 4000"><span class="w-unit">g</span><span class="w-saved" id="ws-gulasch">&#10003; gespeichert</span></div>
+    <div class="w-saved w-result" id="wr-gulasch"></div>
+    <div class="w-row"><span class="w-label">Curryhuhn &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-ourryhuhn" placeholder="ca. 2600"><span class="w-unit">g</span><span class="w-saved" id="ws-curryhuhn">&#10003; gespeichert</span></div>
+    <div class="w-result" id="wr-curryhuhn"></div>
+  </div>
+  <div class="section-label">Wochenende 2</div>
+  <div class="kp-card" style="border-left:3px solid #1A5FA8">
+    <div class="kp-tag">Samstag &#8212; ca. 2h</div>
+    <div class="kp-title">Stroganoff + Butter Chicken</div>
+    <div class="kp-body">Stroganoff: 20 Port. &middot; 35 Min &middot; <span class="kp-link" onclick="oR('stroganoff')">&#8594; Rezept</span><br>Butter Chicken: 20 Port. &middot; 45 Min &middot; <span class="kp-link" onclick="oR('butterchicken')">&#8594; Rezept</span></div>
+    <div class="w-row"><span class="w-label">Stroganoff &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-stroganoff" placeholder="ca. 2900"><span class="w-unit">g</span><span class="w-saved" id="ws-stroganoff">&#10003; gespeichert</span></div>
+    <div class="w-result" id="tr-stroganoff"></div>
+    <div class="w-row"><span class="w-label">Butter Chicken &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-butterchicken" placeholder="ca. 3200"><span class="w-saved" id="ws-butterchicken">&#10003; gespeichert</span></div>
+    <div class="w-saved w-result" id="wr-butterchicken"></div>
+  </div>
+  <div class="kp-card" style="border-left:3px solid #1A5FA8">
+    <div class="kp-tag">Sonntag &#8212; ca. 1h (Marinade Samstag abends ansetzen!)</div>
+    <div class="kp-title">Chicken Tikka Masala</div>
+    <div class="kp-body">Tikka: 20 Port. &middot; 50 Min &middot; <span class="kp-link" onclick="oR('tikka')">&#8594; Rezept</span><br><b>TK danach: 140 Port., 7 Sorten &#8211; System l&auml;uft</b></div>
+    <div class="w-row"><span class="w-klabel">Tikka &#8212; Gesamtgewicht fertig gekocht</span><input class="w-input" type="number" id="w-tikka" placeholder="ca. 3400"><span class="w-unit">g</span><span class="w-saved" id="ws-tikka">&#10003; gespeichert</span></div>
+    <div class="w-result" id="w-result-tikka"></div>
+  </div>
+  <div class="section-label">Ab Woche 5 &#8211; Normalbetrieb</div>
+  <div class="kp-card" style="border-left:3px solid #1A7A4A">
+    <div class="kp-tag">Jeden Samstag &#8212; ca. 2h</div>
+    <div class="kp-title">1 Gericht nach Rotation</div>
+    <div class="kp-body">Dahl &#8594; Bolognese &#8594; Gulasch &#8594; Curryhuhn &#8594; Stroganoff &#8594; Butter Chicken &#8594; Tikka &#8594; von vorne<br>Immer 20 Portionen &middot; Jedes Gericht h&auml;lt 5 Wochen</div>
+  </div>
+</div>
+
+<div id="kalender" class="view">
+  <div class="week-nav">
+    <button onclick="cw(-1)">← zurück</button>
+    <div class="week-label" id="wlbl2">Woche 1</div>
+    <button onclick="cw(1)">weiter &#8594;</button>
+  </div>
+  <table class="kal-table">
+    <thead><tr><th>Woche</th><th>Samstag &#8211; Laura kocht</th><th>Portionen &uuml;brig</th></tr></thead>
+    <tbody id="kbody"></tbody>
+  </table>
+</div>
+
+<div id="snacks" class="view">
+  <p style="font-size:0.82rem;color:#6B6960;margin-bottom:1rem">Taglich rotieren &#8211; nie zl weimal hintereinander dasselbe.</p>
+  <div class="snack-grid" id="sgrid"></div>
+</div>
+
+</div>
+
+<div class="overlay" id="ov" onclick="cib(event)"><div class="popup" id="pp"></div></div>
+
+<script>
+var ST={fKg:95,fKc:2900,lKg:62,lKc:1700,week:1};
+var WTSS={dahl:0,bolognese:0,gulasch:0,curryhuhn:0,stroganoff:0,butterchicken:0,tikka:0};
+var DW={dahl:4800,bolognese:3600,gulasch:4000,curryhuhn:2600,stroganoff:2900,butterchicken:3200,tikka:3400};
+var ROT=["dahl","bolognese","gulasch","curryhuhn","stroganoff","butterchicken","tikka"];
+var RN={dahl:"H\veightschriftnѽ�kos-Dahl",bolognese:"Turkey-Bolognese",gulasch:"Ofengulasch",curryhuhn:"Curryhuhn",stroganoff:"Stroganoff",butterchicken:"Butter Chicken",tikka:"Tikka Masala"};
