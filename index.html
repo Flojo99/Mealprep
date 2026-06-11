@@ -1151,7 +1151,19 @@ function showWeek(){
   document.getElementById("week-view").style.display="block";
   document.getElementById("btn-woche").classList.add("active");
   document.getElementById("btn-tages").classList.remove("active");
-  WloadAll(); WloadW(); Wupd();
+  // State aus gemeinsamem ST übernehmen
+  WST.fKg=ST.fKg; WST.fKc=ST.fKc; WST.lKg=ST.lKg; WST.lKc=ST.lKc;
+  // Slider-Werte in Wochenübersicht setzen
+  var s;
+  s=document.getElementById("fkg"); if(s){s.value=ST.fKg;}
+  s=document.getElementById("fkg-v"); if(s){s.textContent=ST.fKg+" kg";}
+  s=document.getElementById("fkc"); if(s){s.value=ST.fKc;}
+  s=document.getElementById("fkc-v"); if(s){s.textContent=ST.fKc;}
+  s=document.getElementById("lkg"); if(s){s.value=ST.lKg;}
+  s=document.getElementById("lkg-v"); if(s){s.textContent=ST.lKg+" kg";}
+  s=document.getElementById("lkc"); if(s){s.value=ST.lKc;}
+  s=document.getElementById("lkc-v"); if(s){s.textContent=ST.lKc;}
+  WloadAll(); WloadW(); WrenderInfo(); WrenderWeek(); WrenderSnacks(); WrenderAbend(); WrenderKal();
 }
 (function(){
   var d=new Date().getDay();
