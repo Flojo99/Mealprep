@@ -160,8 +160,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--txt);line-height:1
   <button onclick="changeDay(1)">→</button>
 </div>
 <div class="topbar">
-  <button onclick="window.location.href='woche.html'">← Wochenübersicht</button>
-  <button class="active">Tagesansicht</button>
+  <button onclick="showWeek()" id="btn-woche">← Wochenübersicht</button>
+  <button class="active" id="btn-tages" onclick="showDay()">Tagesansicht</button>
 </div>
 
 <div class="heute" id="heute-box"></div>
